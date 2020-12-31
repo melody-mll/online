@@ -1,0 +1,61 @@
+body{
+    background-color: bisque !important;
+    height: 400px;
+}
+.form-wrap{
+    display: flex;
+    width: 300px;
+    height: 350px;
+    margin:100px auto;
+    align-items: center;
+    background: rgba(255,255,255,0.3) ;   
+}
+.form-wrap-register{
+    display: flex;
+    width: 300px;
+    height: 500px;
+    margin:100px auto;
+    align-items: center;
+    background: rgba(255,255,255,0.3) ;     
+}
+.form-wrap div{
+    width: 100%;
+}
+.form-header{
+    width: 300px;
+    height: 56px;
+    line-height: 56px;
+    color: skyblue;
+    margin-top: -30px;
+}
+.form-login{
+    color: skyblue;
+    margin-left: 40px;
+    font-size: 20px;
+    float: left;  
+}
+.form-loginborder{
+    color: skyblue;
+    margin-left: 40px;
+    font-size: 20px;
+    float: left;  
+    border-bottom: 2px solid skyblue;
+}
+.form-register{
+    color: skyblue;
+    margin-right: 40px;
+    font-size: 20px;
+    float: right;
+}
+.username{
+    text-align: center;
+    margin-left: 10px;
+    margin-top: 4px;
+}
+.login-form-button{
+    width: 80%;
+    margin-left: 30px;
+}
+.code-form-button{
+    margin-left: 32px;
+}

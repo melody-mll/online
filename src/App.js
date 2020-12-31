@@ -1,22 +1,21 @@
 import React from 'react';
 import {Switch,Route, HashRouter} from 'react-router-dom';
-import './App.css';
-import Home from './views/Home';
-import About from './views/About';
+import Login from './views/Login';
 
 class App extends React.Component{
   constructor(props){
-    super();
+    super(props);
     this.state={};
   }
   render(){
     return (
+      <div>
       <HashRouter>
         <Switch>
-          <Route component={Home}  exact path='/' />
-          <Route component={About} path='/about' />
+          <Route component={Login}  exact path='/' />
         </Switch>
       </HashRouter>
+      </div>
     );
   }
 }
