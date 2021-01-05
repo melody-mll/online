@@ -17,7 +17,7 @@ class Index extends Component{
             <Layout className="layout-wrap">
               <Header className="layout-header"><LayoutHeader/></Header>   
             <Layout>     
-              <Sider width="250px"><Aside/></Sider>             
+              <Sider width="250px" collapsed={this.state.collapsed}><Aside/></Sider>             
               <Content className="layout-main">
                  <ContainMain/>
               </Content>
