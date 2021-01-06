@@ -37,6 +37,7 @@
     width: 177px;
     height: 47px;
     background-color: #1a2d3f;
+<<<<<<< HEAD
 
 }
 .header-wrap{
@@ -54,4 +55,9 @@
     -o-transition: all .2s ease 0s;
     transition: all .2s ease 0s;
     margin-left: 35px;
+=======
+}
+.header-wrap{
+    margin-left: 220px;
+>>>>>>> 8f81d8a1427c39e75c00cf78b5e68e601e05a473
 }
