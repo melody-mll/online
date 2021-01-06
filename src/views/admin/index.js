@@ -10,18 +10,24 @@ const {Sider,Header,Content,Footer} =Layout;
 class Index extends Component{
     constructor(props){
         super(props);
-        this.state={};
+        this.state={
+          collapsed:false
+        };
+    }
+    iconCollapsed = () =>{
+      this.setState({
+        collapsed:!this.state.collapsed
+      })
     }
     render(){
         return (
             <Layout className="layout-wrap">
-              <Header className="layout-header"><LayoutHeader/></Header>   
+              <Header className="layout-header" ><LayoutHeader iconCollapsed={this.iconCollapsed} collapsed={this.state.collapsed}/></Header>   
             <Layout>     
-              <Sider width="250px"><Aside/></Sider>             
+              <Sider width="250px" collapsed={this.state.collapsed}><Aside/></Sider>             
               <Content className="layout-main">
                  <ContainMain/>
               </Content>
-              <Footer>Footer</Footer>
             </Layout>
           </Layout>
         )

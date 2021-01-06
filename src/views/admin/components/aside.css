@@ -1,15 +1,57 @@
 .logo{
+    -webkit-transition: all .2s ease 0s;
+    -moz-transition: all .2s ease 0s;
+    -ms-transition: all .2s ease 0s;
+    -o-transition: all .2s ease 0s;
+    transition: all .2s ease 0s;
     width: 250px;
-    display: flex;
+    float: left;
     height: 83px;
     margin-left: -50px;
     align-items: center;
     justify-content: center;
     background-color: #001529;
 }
-h1 span{
+.logoclose{
+    -webkit-transition: all .2s ease 0s;
+    -moz-transition: all .2s ease 0s;
+    -ms-transition: all .2s ease 0s;
+    -o-transition: all .2s ease 0s;
+    transition: all .2s ease 0s;
+    width:80px;
+    float: left;
+    height: 83px;
+    margin-left: -50px;
+    align-items: center;
+    justify-content: center;
+    background-color: #001529;
+}
+.blockclose{
+    display: block;
+    height: 47px;
+    background-color: #1a2d3f;
+    width: 100%;
+}
+.block{
     display: block;
     width: 177px;
     height: 47px;
     background-color: #1a2d3f;
+
+}
+.header-wrap{
+    -webkit-transition: all .2s ease 0s;
+    -moz-transition: all .2s ease 0s;
+    -ms-transition: all .2s ease 0s;
+    -o-transition: all .2s ease 0s;
+    transition: all .2s ease 0s;
+    margin-left: 220px;
+}
+.header-wrapclose{
+    -webkit-transition: all .2s ease 0s;
+    -moz-transition: all .2s ease 0s;
+    -ms-transition: all .2s ease 0s;
+    -o-transition: all .2s ease 0s;
+    transition: all .2s ease 0s;
+    margin-left: 35px;
 }

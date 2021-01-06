@@ -18,6 +18,16 @@ const router =[
         ]
     },
     {
+        title:'医生管理',
+        icon:'laptop',
+        key:'/index/doctor',
+        child:[
+            {key:'/index/doctor/list',
+            title:'医生列表',
+            icon:''},
+        ]
+    },
+    {
         title:'部门管理',
         icon:'bars',
         key:'/home/navigation',

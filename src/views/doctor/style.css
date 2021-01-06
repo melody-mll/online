@@ -1,0 +1,23 @@
+.info_label{
+    font-size:16px;
+    display: inline-block;
+    color: RGBA(0, 0, 0, 0.85);
+    line-height: 30px;
+}
+.info_input{
+    display: inline-block;
+    margin-top: 10px;
+}
+.button_search{
+    display: inline-block;
+    margin-left:320px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-right: 10px;
+    width: 100px;
+    
+}
+.unfold_text{
+    display: inline-block;
+    color: cornflowerblue;
+}
