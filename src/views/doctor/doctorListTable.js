@@ -9,13 +9,20 @@ class DoctorListTable extends React.Component{
   render(){ 
     const columns = [
         {
-          title: 'Name',
+          title: '序列',
+          width: 60,
+          dataIndex: 'index',
+          key: 'index',
+          //className: 'orderTable'
+        },
+        {
+          title: '姓名',
           dataIndex: 'name',
           key: 'name',
           render: text => <a>{text}</a>,
         },
         {
-          title: 'Age',
+          title: '年龄',
           dataIndex: 'age',
           key: 'age',
         },
@@ -26,6 +33,7 @@ class DoctorListTable extends React.Component{
         },]
         const data = [
             {
+              index:1,
               key: '1',
               name: 'John Brown',
               age: 32,
@@ -33,6 +41,7 @@ class DoctorListTable extends React.Component{
               tags: ['nice', 'developer'],
             },
             {
+              index:2,
               key: '2',
               name: 'Jim Green',
               age: 42,

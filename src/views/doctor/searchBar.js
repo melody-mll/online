@@ -14,6 +14,9 @@ class SearchBar extends React.Component{
           unfolded:!this.state.unfolded
       })   
   }
+  inputChange= () =>{
+    console.log(111);
+  }
   render(){
       const {unfolded}=this.state;
     return (
@@ -22,7 +25,7 @@ class SearchBar extends React.Component{
             <Col span={8}>
                 <Col span={10} className='info_label'>医生编号：</Col>
                 <Col span={14} className='info_input'>
-                    <Input value={12} />
+                    <Input onChange={this.inputChange} value={12} />
                 </Col>
             </Col>
               <Col span={8}>
