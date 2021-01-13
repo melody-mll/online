@@ -1,6 +1,6 @@
 import React,{Component,Fragment} from 'react';
 import "./aside.css"
-import {MenuFoldOutlined} from "@ant-design/icons";
+import { MenuFoldOutlined} from '@ant-design/icons';
 class LayoutHeader extends Component{
     constructor(props){
         super(props);
@@ -20,9 +20,9 @@ class LayoutHeader extends Component{
         const {collapsed} = this.state;
         return (
             <Fragment>
-                <h1 className="logo"><span></span></h1>
-                <div className="header-wrap">
-                    <span style={{fontSize:"20px"}}><MenuFoldOutlined /></span>
+                    <h1 className={collapsed ? "logoclose":"logo"}><span className={collapsed ? "blockclose" : "block" }></span></h1>               
+                <div className={collapsed?"header-wrapclose":"header-wrap"}>
+                    <span style={{fontSize:"24px"}} onClick={this.iconclick}><MenuFoldOutlined /></span>
                 </div>
             </Fragment>
         )

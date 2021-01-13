@@ -21,3 +21,12 @@
     display: inline-block;
     color: cornflowerblue;
 }
+.form_title{
+    font-size: 16px;
+    display: inline-block;
+    color: RGBA(0, 0, 0, 0.65);
+    line-height: 30px;
+}
+.form_padding{
+    padding-bottom: 10px;
+}

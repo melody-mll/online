@@ -2,7 +2,8 @@ const {createProxyMiddleware}=require("http-proxy-middleware");
 
 module.exports = function(app){
     app.use(createProxyMiddleware("/devApi",{
-        target:"http://www.web-jshtml.cn/api/react",//http://www.web-jshtml.cn/#/
+        //target:"http://www.web-jshtml.cn/api/react",//http://www.web-jshtml.cn/#/
+        target:"http://localhost:3000/",
         changeOrigin:true,
         pathRewrite:{
             "^/devApi":"",

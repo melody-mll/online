@@ -26,7 +26,6 @@ class LoginForm extends Component{
             message.success(response.data.message)
             this.props.history.push('./index')
             //通过withRouter加工后的组件会多一个history props,可以通过history跳转路由
-            console.log(response)
         }).catch(error=>{
         })
         console.log('hahh',value);

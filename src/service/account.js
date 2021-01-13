@@ -4,7 +4,7 @@ import service from "../utils/request";
 export function Login(data){
     return service.request({
         url:"/login/",
-        method:"post",
+        method:"get",
         //params:data//请求类型为get时
         data:data//请求类型为post时
     })
@@ -13,7 +13,7 @@ export function Login(data){
 export function Register(data){
     return service.request({
         url:"/register/",
-        method:"post",
+        method:"get",
         //params:data//请求类型为get时
         data:data//请求类型为post时
     })
