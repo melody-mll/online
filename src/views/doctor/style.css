@@ -30,3 +30,16 @@
 .form_padding{
     padding-bottom: 10px;
 }
+.buttonmain{
+    text-align: center;
+    padding: 20px auto;
+}
+.buttonsave_content{
+    margin-top: 20px;
+    width: 100px;
+}
+.buttoncancel_content{
+    margin-top: 20px;
+    margin-left: 80px;   
+    width: 100px;
+}

@@ -6,7 +6,16 @@ const defaultStatus={
         doctorposition:'',
         doctordepart:''
     },
-    doctorlist:[]
+    doctorlist:{
+        doctorid:'',
+        doctorname:'',
+        doctorsex:'man',
+        doctorage:'',
+        doctorphone:'',
+        doctorposition:'',
+        doctordepart:'',
+        doctorproject:''
+    }
 }
 export default(state=defaultStatus,action)=>{
     if(action.type==="update-form"){
@@ -14,6 +23,16 @@ export default(state=defaultStatus,action)=>{
             ...state,
             form: {
                 ...state.form,
+                ...action.payload
+            }
+        }
+        
+    }
+    if(action.type==="update-doctorlist"){
+        return {
+            ...state,
+            doctorlist: {
+                ...state.doctorlist,
                 ...action.payload
             }
         }

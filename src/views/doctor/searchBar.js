@@ -10,11 +10,15 @@ class SearchBar extends React.Component{
     this.state={
         unfolded:false,
     };
+    store.subscribe(()=>{
+      this.setState(store.getState())
+  })
   }
   unfoldedChange= () =>{
       this.setState({
           unfolded:!this.state.unfolded
-      })   
+      })
+      console.log(this.state);   
   }
   inputChange= (prop, e) =>{
       const action={
@@ -31,7 +35,7 @@ class SearchBar extends React.Component{
         <Fragment>
             <Row>
             <Col span={8}>
-                <Col span={10} className='info_label'>医生编号：</Col>
+                <Col span={10} className='info_label'>医生编号111：</Col>
                 <Col span={14} className='info_input'>
                     <Input onChange={(e) => this.inputChange('doctorid',e)} value={this.state.doctorid} />
                 </Col>
