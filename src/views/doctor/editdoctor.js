@@ -1,44 +1,88 @@
 import React,{Fragment}  from 'react';
 import { Table,Button,Modal,Row,Col, Input,Select, message} from 'antd';
 import store from "../../store";
-class DoctorAdd extends React.Component{
+class DoctorEdit extends React.Component{
   constructor(props){
     super(props);
-    
-    
+    // this.state=store.getState();
     this.state={
-        addvisible:this.props.addvisible,
+        doctorid:this.props.doctorid,
+        doctorname:this.props.doctorname,
+        doctorsex:this.props.doctorsex,
+        doctorage:this.props.doctorage,
+        doctorphone:this.props.doctorphone,
+        doctorposition:this.props.doctorposition,
+        doctordepart:this.props.doctordepart,
+        doctorproject:this.props.doctorproject,
+        editvisible:this.props.editvisible,
+        edittype:this.props.edittype
     }
-    store.subscribe(()=>{
-      this.setState(store.getState())
-  })
+    // this.state=store.getState();
+//     store.subscribe(()=>{
+//       this.setState(store.getState())
+//   })
   }
   // componentWillReceiveProps (nextProps) {    
   //   this.setState({
   //     addvisible:this.props.addvisible
   //   })
   // }
-  inputChange= (prop, e) =>{
-    const action={
-      type:"update-doctorlist",
-      payload: {
-        [prop]: e.target.value
-      }
-    };
-    store.dispatch(action);
+//   inputChange= (prop, e) =>{
+//     const action={
+//       type:"update-doctorlist",
+//       payload: {
+//         [prop]: e.target.value
+//       }
+//     };
+//     store.dispatch(action);
+// }
+inputChange = (prop,e)=>{
+    if(prop === 'doctorid'){
+        this.setState({
+            doctorid:e.target.value
+        })
+    }
+    if(prop === 'doctorname'){
+        this.setState({
+            doctorname:e.target.value
+        })
+    }
+    if(prop === 'doctorage'){
+        this.setState({
+            doctorage:e.target.value
+        })
+    }
+    if(prop === 'doctorphone'){
+        this.setState({
+            doctorphone:e.target.value
+        })
+    }
+    if(prop === 'doctorposition'){
+        this.setState({
+            doctorposition:e.target.value
+        })
+    }   
 }
   selectChange= (prop, e) =>{
-    const action={
-      type:"update-doctorlist",
-      payload: {
-        [prop]: e
-      }
-    };
-    store.dispatch(action);
+    if(prop === 'doctorsex'){
+        this.setState({
+            doctorsex:e
+        })
+    }
+    if(prop === 'doctordepart'){
+        this.setState({
+            doctordepart:e
+        })
+    }
+    if(prop === 'doctorproject'){
+        this.setState({
+            doctorproject:e
+        })
+    } 
   }
   handleCancel = () => {
-    this.setState({  
-        addvisible:!this.state.addvisible
+    this.setState({   
+        editvisible:!this.state.editvisible
     })
   };
   formSubmitEvent = () =>{
@@ -83,20 +127,20 @@ class DoctorAdd extends React.Component{
       doctorproject:this.state.doctorlist.doctorproject
     }
     this.setState({
-      addvisible:!this.state.addvisible
+      editvisible:!this.state.editvisible
     })
     console.log(payload);
   }
   closeModalEvent = () =>{
     this.setState({
-      addvisible:false
+      editvisible:false
   })
   }
   render(){
     const { Option } = Select;
     return (
         <Fragment>
-          <Modal title="添加医生" visible={this.state.addvisible} onCancel={this.handleCancel} footer={null}>
+          <Modal title="编辑医生" visible={this.state.editvisible} onCancel={this.handleCancel} footer={null}>
             <div>
             <Row className="form_padding">
                     <Col span={6}>
@@ -105,7 +149,7 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
+                       <Input disabled={this.state.doctorid=="delete"}
                        onChange={(e) => this.inputChange('doctorid',e)} value={this.state.doctorid}
                        placeholder="请输入医生编号"
                        /> 
@@ -226,4 +270,4 @@ class DoctorAdd extends React.Component{
       );
     };
   }
-export default DoctorAdd;
+export default DoctorEdit;

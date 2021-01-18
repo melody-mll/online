@@ -2,17 +2,80 @@ import React,{Fragment}  from 'react';
 import { Table,Button } from 'antd';
 import {PlusOutlined } from "@ant-design/icons";
 import DoctorAdd from './adddoctor';
+import DoctorEdit from './editdoctor';
 class DoctorListTable extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      addvisible:false,
+      doctorid:'',
+      doctorname:'',
+      doctorsex:'man',
+      doctorage:'',
+      doctorphone:'',
+      doctorposition:'',
+      doctordepart:'',
+      doctorproject:'',
+      editvisible:false
     };
   }
-  addFunc = () => {
+  addFunc = () => {   
     this.setState({
-      addvisible:!this.state.addvisible
+      addvisible:!this.state.addvisible,    
     })
+    console.log(this.state.addvisible);
+  }
+  editFunc = (record) => {
+    const {
+    doctorid,
+    doctorname,
+    doctorsex,
+    doctorage,
+    doctorphone,
+    doctorposition,
+    doctordepart,
+    doctorproject}=record;
+    this.setState({
+    doctorid,
+    doctorname,
+    doctorsex,
+    doctorage,
+    doctorphone,
+    doctorposition,
+    doctordepart,
+    doctorproject
+    })
+    console.log(record);
+    this.setState({
+      editvisible:!this.state.editvisible
+    })
+    console.log(this.state.editvisible);
+  }
+  deleteFunc = (record) => {   
+    const {
+      doctorid,
+      doctorname,
+      doctorsex,
+      doctorage,
+      doctorphone,
+      doctorposition,
+      doctordepart,
+      doctorproject}=record;
+      this.setState({
+      doctorid,
+      doctorname,
+      doctorsex,
+      doctorage,
+      doctorphone,
+      doctorposition,
+      doctordepart,
+      doctorproject,
+      edittype:"delete"
+      })
+      console.log(record);
+      this.setState({
+        editvisible:!this.state.editvisible
+      })
+      console.log(this.state.editvisible);
   }
  
   render(){ 
@@ -70,11 +133,22 @@ class DoctorListTable extends React.Component{
           key: 'doctordepart',
         },
         {
+          title: '所在项目',
+          width: 80,
+          dataIndex: 'doctorproject',
+          key: 'doctorproject',
+        },
+        {
           title: '操作',
           fixed:'right',
           width: 60,
           dataIndex: 'address1',
           key: 'address1',
+          render: (text, record) => {
+            return (
+              <a onClick={() => this.editFunc(record)}>编辑</a>
+            );
+          }
         },
         {
           title: '操作',
@@ -82,14 +156,13 @@ class DoctorListTable extends React.Component{
           width: 60,
           dataIndex: 'address2',
           key: 'address2',
+          render: (text, record) => {
+            return (
+              <a onClick={() => this.deleteFunc(record)}>删除</a>
+            );
+          }
         },
-        {
-          title: '操作',
-          fixed:'right',
-          width: 60,
-          dataIndex: 'address3',
-          key: 'address3',
-        },]
+        ]
         const data = [
             {
               key:1,
@@ -101,6 +174,7 @@ class DoctorListTable extends React.Component{
               doctorphone:18758222222,
               doctorposition:'主医师',
               doctordepart:'骨科',
+              doctorproject:'project1'
             },
             {
               key:2,
@@ -112,6 +186,7 @@ class DoctorListTable extends React.Component{
               doctorphone:18758222222,
               doctorposition:'主医师',
               doctordepart:'骨科',
+              doctorproject:'project2'
             },]
     return (   
         <Fragment>
@@ -137,7 +212,18 @@ class DoctorListTable extends React.Component{
           dataSource={data}
         //   pagination={pagination}
           columns={columns}/>
-          {this.state.addvisible && <DoctorAdd addvisible={this.state.addvisible}/>}
+          {this.state.addvisible && <DoctorAdd addvisible={this.state.addvisible}/>}         
+          {this.state.editvisible && <DoctorEdit 
+          // edittype={this.state.edittype}
+          doctorid={this.state.doctorid}
+          doctorname={this.state.doctorname}
+          doctorsex={this.state.doctorsex}
+          doctorage={this.state.doctorage}
+          doctorphone={this.state.doctorphone}
+          doctorposition={this.state.doctorposition}
+          doctordepart={this.state.doctordepart}
+          doctorproject={this.state.doctorproject} 
+          editvisible={this.state.editvisible}/>}
             
         </Fragment> 
 )
