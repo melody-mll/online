@@ -1,6 +1,5 @@
 import React,{Fragment}  from 'react';
-import { Table,Button,Modal,Row,Col, Input,Select, message} from 'antd';
-import store from "../../store";
+import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
 class DoctorEdit extends React.Component{
   constructor(props){
     super(props);
@@ -22,20 +21,6 @@ class DoctorEdit extends React.Component{
 //       this.setState(store.getState())
 //   })
   }
-  // componentWillReceiveProps (nextProps) {    
-  //   this.setState({
-  //     addvisible:this.props.addvisible
-  //   })
-  // }
-//   inputChange= (prop, e) =>{
-//     const action={
-//       type:"update-doctorlist",
-//       payload: {
-//         [prop]: e.target.value
-//       }
-//     };
-//     store.dispatch(action);
-// }
 inputChange = (prop,e)=>{
     if(prop === 'doctorid'){
         this.setState({
@@ -86,45 +71,45 @@ inputChange = (prop,e)=>{
     })
   };
   formSubmitEvent = () =>{
-    if(!this.state.doctorlist.doctorid){
+    if(!this.state.doctorid){
       return message.warning("医生编号不可为空！！！");
     }
-    if(!this.state.doctorlist.doctorname){
+    if(!this.state.doctorname){
       return message.warning("医生姓名不可为空！！！");
     }
-    if(!this.state.doctorlist.doctorsex){
+    if(!this.state.doctorsex){
       return message.warning("医生性别不可为空！！！");
     }
-    if(!this.state.doctorlist.doctorage){
+    if(!this.state.doctorage){
       return message.warning("医生年龄不可为空！！！");
     }
-    if(this.state.doctorlist.doctorage>100||this.state.doctorlist.doctorage<18){
+    if(this.state.doctorage>100||this.state.doctorage<18){
       return message.warning("请输入正确的医生年龄！！！");
     }
-    if(!this.state.doctorlist.doctorphone){
+    if(!this.state.doctorphone){
       return message.warning("医生电话不可为空！！！");
     }
-    if(!/^[1][3,4,5,7,8][0-9]{9}$/g.test(this.state.doctorlist.doctorphone)){
+    if(!/^[1][3,4,5,7,8][0-9]{9}$/g.test(this.state.doctorphone)){
       return message.warning("请输入正确的手机号")
     }
-    if(!this.state.doctorlist.doctorposition){
+    if(!this.state.doctorposition){
       return message.warning("医生职位不可为空！！！");
     }
-    if(!this.state.doctorlist.doctordepart){
+    if(!this.state.doctordepart){
       return message.warning("医生科室不可为空！！！");
     }
-    if(!this.state.doctorlist.doctorproject){
+    if(!this.state.doctorproject){
       return message.warning("医生所属项目不可为空！！！");
     }
     const payload={
-      doctorid:this.state.doctorlist.doctorid,
-      doctorname:this.state.doctorlist.doctorname,
-      doctorsex:this.state.doctorlist.doctorsex,
-      doctorage:this.state.doctorlist.doctorage,
-      doctorphone:this.state.doctorlist.doctorphone,
-      doctorposition:this.state.doctorlist.doctorposition,
-      doctordepart:this.state.doctorlist.doctordepart,
-      doctorproject:this.state.doctorlist.doctorproject
+      doctorid:this.state.doctorid,
+      doctorname:this.state.doctorname,
+      doctorsex:this.state.doctorsex,
+      doctorage:this.state.doctorage,
+      doctorphone:this.state.doctorphone,
+      doctorposition:this.state.doctorposition,
+      doctordepart:this.state.doctordepart,
+      doctorproject:this.state.doctorproject
     }
     this.setState({
       editvisible:!this.state.editvisible
@@ -149,7 +134,7 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input disabled={this.state.doctorid=="delete"}
+                       <Input 
                        onChange={(e) => this.inputChange('doctorid',e)} value={this.state.doctorid}
                        placeholder="请输入医生编号"
                        /> 

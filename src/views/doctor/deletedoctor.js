@@ -1,95 +1,53 @@
 import React,{Fragment}  from 'react';
-import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
+import { Button,Modal,Row,Col, Input,Select,} from 'antd';
 import store from "../../store";
-class DoctorAdd extends React.Component{
+class DoctorDelete extends React.Component{
   constructor(props){
-    super(props);    
+    super(props);
     this.state={
-        addvisible:this.props.addvisible,
+        doctorid:this.props.doctorid,
+        doctorname:this.props.doctorname,
+        doctorsex:this.props.doctorsex,
+        doctorage:this.props.doctorage,
+        doctorphone:this.props.doctorphone,
+        doctorposition:this.props.doctorposition,
+        doctordepart:this.props.doctordepart,
+        doctorproject:this.props.doctorproject,
+        deletevisible:this.props.deletevisible,
+        edittype:this.props.edittype
     }
-    store.subscribe(()=>{
-      this.setState(store.getState())
-  })
-  }
-  inputChange= (prop, e) =>{
-    const action={
-      type:"update-doctorlist",
-      payload: {
-        [prop]: e.target.value
-      }
-    };
-    store.dispatch(action);
-}
-  selectChange= (prop, e) =>{
-    const action={
-      type:"update-doctorlist",
-      payload: {
-        [prop]: e
-      }
-    };
-    store.dispatch(action);
   }
   handleCancel = () => {
-    this.setState({  
-        addvisible:!this.state.addvisible
+    this.setState({   
+        deletevisible:!this.state.deletevisible
     })
   };
-  formSubmitEvent = () =>{
-    if(!this.state.doctorlist.doctorid){
-      return message.warning("医生编号不可为空！！！");
-    }
-    if(!this.state.doctorlist.doctorname){
-      return message.warning("医生姓名不可为空！！！");
-    }
-    if(!this.state.doctorlist.doctorsex){
-      return message.warning("医生性别不可为空！！！");
-    }
-    if(!this.state.doctorlist.doctorage){
-      return message.warning("医生年龄不可为空！！！");
-    }
-    if(this.state.doctorlist.doctorage>100||this.state.doctorlist.doctorage<18){
-      return message.warning("请输入正确的医生年龄！！！");
-    }
-    if(!this.state.doctorlist.doctorphone){
-      return message.warning("医生电话不可为空！！！");
-    }
-    if(!/^[1][3,4,5,7,8][0-9]{9}$/g.test(this.state.doctorlist.doctorphone)){
-      return message.warning("请输入正确的手机号")
-    }
-    if(!this.state.doctorlist.doctorposition){
-      return message.warning("医生职位不可为空！！！");
-    }
-    if(!this.state.doctorlist.doctordepart){
-      return message.warning("医生科室不可为空！！！");
-    }
-    if(!this.state.doctorlist.doctorproject){
-      return message.warning("医生所属项目不可为空！！！");
-    }
+  formDeleteEvent = () =>{
     const payload={
-      doctorid:this.state.doctorlist.doctorid,
-      doctorname:this.state.doctorlist.doctorname,
-      doctorsex:this.state.doctorlist.doctorsex,
-      doctorage:this.state.doctorlist.doctorage,
-      doctorphone:this.state.doctorlist.doctorphone,
-      doctorposition:this.state.doctorlist.doctorposition,
-      doctordepart:this.state.doctorlist.doctordepart,
-      doctorproject:this.state.doctorlist.doctorproject
+      doctorid:this.state.doctorid,
+      doctorname:this.state.doctorname,
+      doctorsex:this.state.doctorsex,
+      doctorage:this.state.doctorage,
+      doctorphone:this.state.doctorphone,
+      doctorposition:this.state.doctorposition,
+      doctordepart:this.state.doctordepart,
+      doctorproject:this.state.doctorproject
     }
     this.setState({
-      addvisible:!this.state.addvisible
+      deletevisible:!this.state.deletevisible
     })
     console.log(payload);
   }
   closeModalEvent = () =>{
     this.setState({
-      addvisible:false
+      editvisible:false
   })
-  }
+  };
   render(){
     const { Option } = Select;
     return (
         <Fragment>
-          <Modal title="添加医生" visible={this.state.addvisible} onCancel={this.handleCancel} footer={null}>
+          <Modal title="删除医生" visible={this.state.deletevisible} onCancel={this.handleCancel} footer={null}>
             <div>
             <Row className="form_padding">
                     <Col span={6}>
@@ -98,8 +56,7 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('doctorid',e)} value={this.state.doctorid}
+                       <Input disabled={true} value={this.state.doctorid}
                        placeholder="请输入医生编号"
                        /> 
                     </Col>
@@ -111,8 +68,7 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('doctorname',e)} value={this.state.doctorname}
+                       <Input disabled={true} value={this.state.doctorname}
                        placeholder="请输入医生姓名"
                        /> 
                     </Col>
@@ -124,7 +80,7 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                    <Select defaultValue="man" style={{ width: 355 }} onChange={(e) => this.selectChange('doctorsex',e)}  value={this.state.doctorsex}>
+                    <Select defaultValue="man" disabled={true} style={{ width: 355 }} value={this.state.doctorsex}>
                     <Option value="man">男</Option>
                     <Option value="woman">女</Option>
                     </Select>
@@ -137,8 +93,8 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('doctorage',e)} value={this.state.doctorage}
+                       <Input disabled={true}
+                       value={this.state.doctorage}
                        placeholder="请输入医生年龄"
                        /> 
                     </Col>
@@ -150,8 +106,8 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('doctorphone',e)} value={this.state.doctorphone}
+                       <Input disabled={true}
+                       value={this.state.doctorphone}
                        placeholder="请输入医生电话号码"
                        /> 
                     </Col>
@@ -163,8 +119,8 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('doctorposition',e)} value={this.state.doctorposition}
+                       <Input disabled={true}
+                       value={this.state.doctorposition}
                        placeholder="请输入医生职位"
                        /> 
                     </Col>
@@ -176,7 +132,7 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                    <Select defaultValue="" style={{ width: 355 }}  onChange={(e) => this.selectChange('doctordepart',e)} value={this.state.doctordepart}>
+                    <Select defaultValue="" style={{ width: 355 }} disabled={true} value={this.state.doctordepart}>
                     <Option value="man">骨科</Option>
                     <Option value="woman">儿科</Option>
                     </Select>
@@ -189,7 +145,7 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                    <Select defaultValue="" style={{ width: 355 }} onChange={(e) => this.selectChange('doctorproject',e)} value={this.state.doctorproject}>
+                    <Select defaultValue="" style={{ width: 355 }} disabled={true} value={this.state.doctorproject}>
                     <Option value="man">111</Option>
                     <Option value="woman">222</Option>
                     </Select>
@@ -199,14 +155,14 @@ class DoctorAdd extends React.Component{
                 <div className="buttonmain">
                   <Button
                     className="buttonsave_content"
-                    type="primary"
-                    onClick={this.formSubmitEvent}
+                    type="danger"
+                    onClick={this.formDeleteEvent}
                   >
-                    <span style={{ letterSpacing: '2px' }}>保存</span>
+                    <span style={{ letterSpacing: '2px' }}>删除</span>
                   </Button>
                   <Button
                     className="buttoncancel_content"
-                    onClick={this.closeModalEvent}
+                    onClick={this.handleCancel}
                   >
                     <span style={{ letterSpacing: '2px' }}>
                       取消
@@ -217,6 +173,6 @@ class DoctorAdd extends React.Component{
           </Modal>
         </Fragment>
       );
-    };
+    }
   }
-export default DoctorAdd;
+export default DoctorDelete;

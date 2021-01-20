@@ -27,3 +27,11 @@ export function GetCode(data){
         data:data//请求类型为post时
     })
 }
+//获取医生表单
+export function Getdoctorlist(data){
+    return service.request({
+        url:"/getdoctorlist/",
+        method:"post",
+        data:data
+    })
+}

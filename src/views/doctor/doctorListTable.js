@@ -1,8 +1,10 @@
 import React,{Fragment}  from 'react';
 import { Table,Button } from 'antd';
 import {PlusOutlined } from "@ant-design/icons";
+import {Getdoctorlist} from '../../service/account'//导入接口
 import DoctorAdd from './adddoctor';
 import DoctorEdit from './editdoctor';
+import DoctorDelete from './deletedoctor';
 class DoctorListTable extends React.Component{
   constructor(props){
     super(props);
@@ -15,14 +17,32 @@ class DoctorListTable extends React.Component{
       doctorposition:'',
       doctordepart:'',
       doctorproject:'',
-      editvisible:false
+      editvisible:false,
+      deletevisible:false,
+      list:[]
     };
   }
   addFunc = () => {   
     this.setState({
       addvisible:!this.state.addvisible,    
     })
-    console.log(this.state.addvisible);
+  }
+  //生命周期的使用，componentWillMount在渲染前调用,在客户端也在服务端。
+  componentWillMount() {
+    const requestData = {
+      doctorid: this.state.doctorid,
+      doctorname:this.state.doctorname,
+      doctorphone:this.state.doctorphone,
+      doctorposition:this.state.doctorposition,
+      doctordepart:this.state.doctordepart
+    }
+    Getdoctorlist(requestData).then(response=>{
+      const list=response.data.data;
+      this.setState({
+        list
+      })
+    }).catch(error=>{
+    })
   }
   editFunc = (record) => {
     const {
@@ -44,11 +64,9 @@ class DoctorListTable extends React.Component{
     doctordepart,
     doctorproject
     })
-    console.log(record);
     this.setState({
       editvisible:!this.state.editvisible
     })
-    console.log(this.state.editvisible);
   }
   deleteFunc = (record) => {   
     const {
@@ -68,14 +86,11 @@ class DoctorListTable extends React.Component{
       doctorphone,
       doctorposition,
       doctordepart,
-      doctorproject,
-      edittype:"delete"
+      doctorproject
       })
-      console.log(record);
       this.setState({
-        editvisible:!this.state.editvisible
+        deletevisible:!this.state.deletevisible,    
       })
-      console.log(this.state.editvisible);
   }
  
   render(){ 
@@ -85,14 +100,12 @@ class DoctorListTable extends React.Component{
           width: 60,
           dataIndex: 'index',
           key: 'index',
-          //className: 'orderTable'
         },
         {
           title: '医生编号 ',
           width: 120,
           dataIndex: 'doctorid',
           key: 'doctorid',
-          //className: 'orderTable'
         },
         {
           title: '姓名',
@@ -106,7 +119,6 @@ class DoctorListTable extends React.Component{
           width: 60,
           dataIndex: 'doctorsex',
           key: 'doctorsex',
-          //className: 'orderTable'
         },
         {
           title: '年龄',
@@ -163,31 +175,6 @@ class DoctorListTable extends React.Component{
           }
         },
         ]
-        const data = [
-            {
-              key:1,
-              index:1,
-              doctorid: '1',
-              doctorname: 'John Brown',
-              doctorsex:'男',
-              doctorage: 32,
-              doctorphone:18758222222,
-              doctorposition:'主医师',
-              doctordepart:'骨科',
-              doctorproject:'project1'
-            },
-            {
-              key:2,
-              index:2,
-              doctorid: '22',
-              doctorname: 'John Brown',
-              doctorsex:'男',
-              doctorage: 32,
-              doctorphone:18758222222,
-              doctorposition:'主医师',
-              doctordepart:'骨科',
-              doctorproject:'project2'
-            },]
     return (   
         <Fragment>
           <Button style={{ display: 'block',marginBottom:'10px'}} 
@@ -203,18 +190,10 @@ class DoctorListTable extends React.Component{
               y:'max-content'
             }
           }
-        //   scroll={{ x: xTableWidth, y: this.props.scrollYSize }}
-        //   expandedRowKeys={expandedRowKeys}
-        //   onExpand={this.expandChangeListener}
-        //   expandedRowRender={record => {
-        //     return this.expandedTable(record);
-        //   }}
-          dataSource={data}
-        //   pagination={pagination}
+          dataSource={this.state.list}
           columns={columns}/>
-          {this.state.addvisible && <DoctorAdd addvisible={this.state.addvisible}/>}         
-          {this.state.editvisible && <DoctorEdit 
-          // edittype={this.state.edittype}
+          {this.state.addvisible && <DoctorAdd addvisible={this.state.addvisible}/>}  
+          {this.state.deletevisible && <DoctorDelete 
           doctorid={this.state.doctorid}
           doctorname={this.state.doctorname}
           doctorsex={this.state.doctorsex}
@@ -223,12 +202,19 @@ class DoctorListTable extends React.Component{
           doctorposition={this.state.doctorposition}
           doctordepart={this.state.doctordepart}
           doctorproject={this.state.doctorproject} 
-          editvisible={this.state.editvisible}/>}
-            
+          deletevisible={this.state.deletevisible}/>}        
+          {this.state.editvisible && <DoctorEdit 
+          doctorid={this.state.doctorid}
+          doctorname={this.state.doctorname}
+          doctorsex={this.state.doctorsex}
+          doctorage={this.state.doctorage}
+          doctorphone={this.state.doctorphone}
+          doctorposition={this.state.doctorposition}
+          doctordepart={this.state.doctordepart}
+          doctorproject={this.state.doctorproject} 
+          editvisible={this.state.editvisible}/>}          
         </Fragment> 
 )
   }
 }
-
-
 export default DoctorListTable;

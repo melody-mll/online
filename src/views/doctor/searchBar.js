@@ -1,6 +1,7 @@
 import React,{Fragment} from 'react';
-import { Modal,Icon, Row, Col, Button, Radio, Input, Cascader, Select } from 'antd';
+import { Row, Col, Button, Input,} from 'antd';
 import { DownOutlined, UpOutlined  } from "@ant-design/icons";
+import {Getdoctorlist} from '../../service/account'//导入接口
 import store from "../../store"
 import "./style.css"
 class SearchBar extends React.Component{
@@ -29,13 +30,27 @@ class SearchBar extends React.Component{
       };
       store.dispatch(action);
   }
+  doctorlistSearch =() =>{
+    const requestData = {
+      doctorid: this.state.doctorid,
+      doctorname:this.state.doctorname,
+      doctorphone:this.state.doctorphone,
+      doctorposition:this.state.doctorposition,
+      doctordepart:this.state.doctordepart
+    }
+    Getdoctorlist(requestData).then(response=>{
+        console.log(response)
+    }).catch(error=>{
+        console.log(error)
+    })
+  }
   render(){
       const {unfolded}=this.state;
     return (
         <Fragment>
             <Row>
             <Col span={8}>
-                <Col span={10} className='info_label'>医生编号111：</Col>
+                <Col span={10} className='info_label'>医生编号：</Col>
                 <Col span={14} className='info_input'>
                     <Input onChange={(e) => this.inputChange('doctorid',e)} value={this.state.doctorid} />
                 </Col>
@@ -71,6 +86,7 @@ class SearchBar extends React.Component{
             <Button
               className="button_search"
               type="primary"
+              onClick={this.doctorlistSearch}
             >
               查询
             </Button>
