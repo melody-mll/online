@@ -1,5 +1,6 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
+import {Savedoctorlist} from '../../service/account'//导入接口
 class DoctorEdit extends React.Component{
   constructor(props){
     super(props);
@@ -114,7 +115,15 @@ inputChange = (prop,e)=>{
     this.setState({
       editvisible:!this.state.editvisible
     })
-    console.log(payload);
+    //编辑医生保存后，调用后端接口，把数据传给后端
+    const requestData=payload;
+    Savedoctorlist(requestData).then(response=>{
+      message.success(response.data.message)
+      console.log(response.data.data);
+    }).catch(error=>{
+        console.log(error)
+    })
+
   }
   closeModalEvent = () =>{
     this.setState({

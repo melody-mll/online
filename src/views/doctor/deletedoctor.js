@@ -1,5 +1,6 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select,} from 'antd';
+import {Deletedoctorlist} from '../../service/account'//导入接口
 import store from "../../store";
 class DoctorDelete extends React.Component{
   constructor(props){
@@ -33,8 +34,14 @@ class DoctorDelete extends React.Component{
       doctordepart:this.state.doctordepart,
       doctorproject:this.state.doctorproject
     }
+    const requestData = payload;
     this.setState({
       deletevisible:!this.state.deletevisible
+    })
+    Deletedoctorlist(requestData).then(response=>{
+      console.log(response.data.data);
+    }).catch(error=>{
+        console.log(error)
     })
     console.log(payload);
   }

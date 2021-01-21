@@ -192,7 +192,9 @@ class DoctorListTable extends React.Component{
           }
           dataSource={this.state.list}
           columns={columns}/>
-          {this.state.addvisible && <DoctorAdd addvisible={this.state.addvisible}/>}  
+          {this.state.addvisible && <DoctorAdd 
+          addvisible={this.state.addvisible} 
+          list={this.state.list}/>}  
           {this.state.deletevisible && <DoctorDelete 
           doctorid={this.state.doctorid}
           doctorname={this.state.doctorname}

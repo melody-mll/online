@@ -1,11 +1,13 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
 import store from "../../store";
+import {Savedoctorlist} from '../../service/account'//导入接口
 class DoctorAdd extends React.Component{
   constructor(props){
     super(props);    
     this.state={
         addvisible:this.props.addvisible,
+        list:this.props.list
     }
     store.subscribe(()=>{
       this.setState(store.getState())
@@ -78,6 +80,26 @@ class DoctorAdd extends React.Component{
     this.setState({
       addvisible:!this.state.addvisible
     })
+    //添加医生后，调用后端接口，把数据传给后端
+    const requestData=payload;
+    Savedoctorlist(requestData).then(response=>{
+      message.success(response.data.message)
+      console.log(response.data.data);
+      this.setState({
+        list:response.data.data
+      })
+    }).catch(error=>{
+        console.log(error)
+    })
+
+  // Getdoctorlist(list).then(response=>{
+  //   const list=response.data.data;
+  //   this.setState({
+  //     list
+  //   })
+  // }).catch(error=>{
+  // })
+
     console.log(payload);
   }
   closeModalEvent = () =>{

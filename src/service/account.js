@@ -35,3 +35,27 @@ export function Getdoctorlist(data){
         data:data
     })
 }
+//添加医生保存时调用接口，把保存的数据传给后端
+export function Savedoctorlist(data){
+    return service.request({
+        url:"/savedoctorlist/",
+        method:"post",
+        data:data
+    })
+}
+//删除医生后调用接口，把所删除的数据传给后端
+export function Deletedoctorlist(data){
+    return service.request({
+        url:"/deletedoctorlist/",
+        method:"post",
+        data:data
+    })
+}
+//排班信息获取医生排班的日期信息
+export function GetscheduleDateHeader(data){
+    return service.request({
+        url:"/getscheduledateheader/",
+        method:"get",
+        data:data
+    })
+}

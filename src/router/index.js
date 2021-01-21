@@ -28,6 +28,16 @@ const router =[
         ]
     },
     {
+        title:'医生排班',
+        icon:'laptop',
+        key:'/index/doctorschedule',
+        child:[
+            {key:'/index/doctorschedule/list',
+            title:'科室排班',
+            icon:''},
+        ]
+    },
+    {
         title:'部门管理',
         icon:'bars',
         key:'/home/navigation',
