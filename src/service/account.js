@@ -59,3 +59,11 @@ export function GetscheduleDateHeader(data){
         data:data
     })
 }
+//排班信息中医生信息列表
+export function GetdocScheduleList(data){
+    return service.request({
+        url:"/getdocschedulelist/",
+        method:"get",
+        data:data
+    }) 
+}

@@ -1,0 +1,54 @@
+.scheduleTable {
+  
+
+  }
+
+  .docScheduleTitleRow  div{
+    width: 110px;
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    display:inline-flex;
+    border: 1px solid balck;
+    background-color: #979797;
+    border: 1px solid black;
+  }
+  .scheduleContent{
+    display: inline-flex;
+    flex-direction: column;
+  }
+  .scheduleContent span{
+    width: 110px;
+    height: 60px;
+    display: inline-block;
+    /* border: 1px solid black; */
+    padding: auto;
+    padding-left: 50px;
+    padding-top: 15px;
+  }
+  .noSchedule {
+    line-height: 52px;
+    height: 52px;
+    padding-left: 532px;
+  }
+  .timeRow{
+    text-align: left;
+    margin-left: 14px;
+  }
+  .scheduleRow{
+    border: 1px solid skyblue;
+    display: flex;
+  }
+
+  .scheduleCell{
+  display: flex;
+  width: 110px;
+  height: inherit;
+  text-align: center;
+  line-height: 60px;
+  flex-direction: column;
+  border: 1px solid skyblue;
+}
+.scheduleCell:hover{
+  background-color: skyblue;
+}
