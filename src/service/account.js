@@ -67,3 +67,36 @@ export function GetdocScheduleList(data){
         data:data
     }) 
 }
+//得到所有的科室信息
+export function GetdepartList(data){
+    return service.request({
+        url:"/getdepartlist/",
+        method:"get",
+        data:data
+    }) 
+}
+//得到所有的项目信息
+export function GetprojectList(data){
+    return service.request({
+        url:"/getprojectlist/",
+        method:"get",
+        data:data
+    }) 
+}
+//在排班时，添加医生，（所选科室，项目，已经确定）
+export function GetScheduleDoctor(data){
+    return service.request({
+        url:"/getscheduledoctor/",
+        method:"get",
+        data:data
+    }) 
+}
+//排班时，编辑挂号信息保存时，调用接口
+export function SaveEditSchedule(data){
+    return service.request({
+        url:"/saveeditschedule/",
+        method:"get",
+        data:data
+    }) 
+}
+

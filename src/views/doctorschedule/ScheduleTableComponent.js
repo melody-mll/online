@@ -1,11 +1,20 @@
 import React, { Fragment } from 'react';
+// import {Icon} from 'antd';
+// import Icon from '@ant-design/icons';
+// import { Icon } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import EditSchedule from "./editschedule";
 import "./style.css"
 class ScheduleTableComponent extends React.Component{
   constructor(props){
     super(props);
     this.state={
       scheduleDateHeader:this.props.scheduleDateHeader,
-      doctorScheduleList:this.props.doctorScheduleList
+      doctorScheduleList:this.props.doctorScheduleList,
+      editschedulevisible:false,
+      docid:"",
+      date:"",
+      details:""
     };
   };
 
@@ -41,32 +50,45 @@ class ScheduleTableComponent extends React.Component{
       return (
         <div key={docid} className="timeRow">
           <div>
-          （{registrationFee}）
-          {registrationNum}
+          （{registrationNum}）
+          ¥{registrationFee}
           </div>
         </div>
       )
     })
   }
   editSchedule=(docid, date, details)=>{
-    console.log('hahhahahah');
+    this.setState({
+      editschedulevisible:!this.state.editschedulevisible,
+      docid:docid,
+      date:date,
+      details:details
+    })
+    console.log('123',docid,date,details);
   }
+  // editDoctor=( docid, name, title )=>{
+  //   console.log('1');
+  // }
   
   render(){
     const row=this.props.doctorScheduleList.map((item, index) => {
       console.log('item',item);
       const {docid,infos,name}=item;
+      
       return (
         <div className="scheduleRow">
         <div key={index} className="docCell">
-            {
+            {/* {
               // <Icon
               //   type="form"
               //   style={{ color: '#188EF2', marginRight: '5px' }}
               //   // onClick={() => editDoctor({ docId, name, title })}
               // />
-            }
+               <DeleteOutlined style={{marginRight: '5px'}}/>
+            } */}
             <span>
+            {/* <DeleteOutlined style={{marginLeft:'-100px'}} 
+            onClick={() => this.editDoctor({ docid, name })}/> */}
               {name}
             </span>
           </div>
@@ -98,6 +120,15 @@ class ScheduleTableComponent extends React.Component{
           <div className="noSchedule">暂无数据</div>
         )}
        </div> 
+       {
+         this.state.editschedulevisible &&
+         <EditSchedule
+         editschedulevisible={this.state.editschedulevisible}
+         docid={this.state.docid}
+         date={this.state.date}
+         details={this.state.details}
+         />
+       }
       </Fragment>   
 )
   }

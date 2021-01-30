@@ -10,7 +10,7 @@ class DoctorSchedule extends React.Component{
     return (
     <Fragment>
         <SearchBar />
-        <Schedules />
+        {/* <Schedules /> */}
     </Fragment>
 )
   }

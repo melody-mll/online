@@ -83,7 +83,7 @@ class DoctorDelete extends React.Component{
                 <Row className="form_padding">
                     <Col span={6}>
                         <span className="form_title">
-                            医生性别：
+                            医生性别1：
                         </span>
                     </Col>
                     <Col span={18}>

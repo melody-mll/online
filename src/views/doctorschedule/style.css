@@ -1,5 +1,4 @@
 .scheduleTable {
-  
 
   }
 
@@ -8,6 +7,7 @@
     height: 60px;
     text-align: center;
     line-height: 60px;
+    padding: auto;
     display:inline-flex;
     border: 1px solid balck;
     background-color: #979797;
@@ -19,7 +19,7 @@
   }
   .scheduleContent span{
     width: 110px;
-    height: 60px;
+    height: 30px;
     display: inline-block;
     /* border: 1px solid black; */
     padding: auto;
@@ -51,4 +51,22 @@
 }
 .scheduleCell:hover{
   background-color: skyblue;
+}
+.info_label{
+  font-size:16px;
+  display: inline-block;
+  color: RGBA(0, 0, 0, 0.85);
+  line-height: 30px;
+}
+.info_input{
+  display: inline-block;
+  margin-top: 10px;
+}
+.button_search{
+  display: inline-block;
+  margin-left:420px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  margin-right: 10px;
+  width: 100px;
 }
