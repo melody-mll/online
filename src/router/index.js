@@ -5,25 +5,42 @@ const router =[
         key:'/index'
     },
     {
-        title:'用户管理',
+        title:'患者管理',
         icon:'laptop',
         key:'/index/user',
         child:[
-            {key:'/index/user/list',title:'用户列表',icon:''},
-            {
-                key:'/index/user/add',
-                title:'添加用户',
-                icon:''
-            }
+            {key:'/index/user/list',
+            title:'患者信息',
+            icon:''},
         ]
     },
     {
         title:'医生管理',
-        icon:'laptop',
+        icon:'doctor',
         key:'/index/doctor',
         child:[
             {key:'/index/doctor/list',
             title:'医生列表',
+            icon:'laptop'},
+        ]
+    },
+    {
+        title:'科室管理',
+        icon:'laptop',
+        key:'/index/depart',
+        child:[
+            {key:'/index/depart/list',
+            title:'科室列表',
+            icon:''},
+        ]
+    },
+    {
+        title:'项目管理',
+        icon:'laptop',
+        key:'/index/project',
+        child:[
+            {key:'/index/project/list',
+            title:'项目列表',
             icon:''},
         ]
     },
@@ -38,35 +55,14 @@ const router =[
         ]
     },
     {
-        title:'部门管理',
-        icon:'bars',
-        key:'/home/navigation',
+        title:'预约信息',
+        icon:'laptop',
+        key:'/index/registerinformation',
         child:[
-            {key:'/home/navigation/dropdown',title:'部门列表',icon:''},
-            {
-                key:'/home/navigation/menu',
-                title:'添加部门',
-                icon:''
-            }
+            {key:'/index/registerinformation/list',
+            title:'预约列表',
+            icon:''},
         ]
-    },
-    {
-        title:'职位管理',
-        icon:'edit',
-        key:'/home/entry',
-        child:[
-            {key:'/home/entry/dropdown',title:'职位列表',icon:''},
-            {
-                key:'/home/entry/menu',
-                title:'添加职位',
-                icon:''
-            }
-        ]
-    },
-    {
-        title:"请假",
-        icon:'info-circle-o',
-        key:'/home/about'
-    },
+    }
 ]
 export default router;

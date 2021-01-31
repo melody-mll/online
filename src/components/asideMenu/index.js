@@ -18,6 +18,7 @@ class AsideMenu extends Component{
     }
     //联级菜单渲染
     renderSubMenu=({title,key,child}) => {
+        console.log('2121',title,key,child);
         return (
             <SubMenu key={key} icon={<UserOutlined/>} title={title}>
                 {

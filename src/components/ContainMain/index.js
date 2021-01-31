@@ -4,6 +4,9 @@ import User from "../../views/user/index"
 import UserAdd from "../../views/user/add"
 import Doctor from "../../views/doctor/index"
 import DoctorSchedule from "../../views/doctorschedule/index"
+import DepartList from "../../views/depart/index"
+import ProjectList from "../../views/project/index"
+import RegisterList from "../../views/registerinformation/index"
 
 
 class ContainMain extends React.Component{
@@ -19,6 +22,9 @@ class ContainMain extends React.Component{
         <Route path="/index/user/add" component={UserAdd}/>
         <Route path="/index/doctor/list" component={Doctor}/>
         <Route path="/index/doctorschedule/list" component={DoctorSchedule}/>
+        <Route path="/index/depart/list" component={DepartList}/>
+        <Route path="/index/project/list" component={ProjectList}/>
+        <Route path="/index/registerinformation/list" component={RegisterList}/>
       </Switch>
 
     ); 
