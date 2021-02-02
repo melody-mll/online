@@ -1,7 +1,7 @@
 import React,{Fragment} from 'react';
-import { Row, Col, Button, Input,} from 'antd';
+import { Row, Col, Button, Input,Select} from 'antd';
 import { DownOutlined, UpOutlined  } from "@ant-design/icons";
-import {Getdoctorlist} from '../../service/account'//导入接口
+import {Getdoctorlist,GetdepartList} from '../../service/account'//导入接口
 import store from "../../store"
 import "./style.css"
 class SearchBar extends React.Component{
@@ -10,11 +10,31 @@ class SearchBar extends React.Component{
     this.state=store.getState();
     this.state={
         unfolded:false,
+        departlist:[]
     };
     store.subscribe(()=>{
       this.setState(store.getState())
   })
   }
+  componentWillMount() {
+    GetdepartList().then(response=>{
+      console.log(response.data.data,'1');
+      const data=response.data.data;
+      if(data){
+        var departlist=[];
+        for(var i=0,len=data.length;i<len;i++){
+          var departdata=data[i];
+          departlist.push(departdata.depart)
+        }
+      }
+      this.setState({
+        departlist:departlist
+      })
+      console.log('11111',this.state.departlist);
+    }).catch(error=>{
+      console.log(error);
+      })
+    }
   unfoldedChange= () =>{
       this.setState({
           unfolded:!this.state.unfolded
@@ -30,6 +50,11 @@ class SearchBar extends React.Component{
       };
       store.dispatch(action);
   }
+  selectChangedep=(e)=>{
+    this.setState({
+      doctordepart:e
+    })
+  }
   doctorlistSearch =() =>{
     const requestData = {
       doctorid: this.state.doctorid,
@@ -38,6 +63,7 @@ class SearchBar extends React.Component{
       doctorposition:this.state.doctorposition,
       doctordepart:this.state.doctordepart
     }
+    //点击查询后应该根据条件返回结果
     Getdoctorlist(requestData).then(response=>{
         console.log(response)
     }).catch(error=>{
@@ -46,6 +72,7 @@ class SearchBar extends React.Component{
   }
   render(){
       const {unfolded}=this.state;
+      const {Option}=Select;
     return (
         <Fragment>
             <Row>
@@ -78,8 +105,19 @@ class SearchBar extends React.Component{
             </Col>
             <Col span={8}>
               <Col span={10} className='info_label'>所在科室：</Col>
-                <Col span={14} className='info_input'>
-                    <Input onChange={(e) => this.inputChange('doctordepart',e)} value={this.state.doctordepart} />
+              <Col span={14} className='info_input'>
+                <Select defaultValue="" style={{width:"175px"}}
+                 onChange={(e) => this.selectChangedep(e)} 
+                 value={this.state.doctordepart}>
+                   {this.state.departlist.map((value,  label) => (
+                    <Option key={value} value={value}>
+                      {value}
+                    </Option>
+                    ))}     
+                </Select>
+                    {/* <Input 
+                    onChange={(e) => this.inputChange('doctordepart',e)} 
+                    value={this.state.doctordepart} /> */}
                 </Col>
             </Col>
             </Row>:" "}

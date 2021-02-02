@@ -45,7 +45,7 @@ class SearchBar extends React.Component{
         var projectlist=[];
         for(var i=0,len=data.length;i<len;i++){
           var projectdata=data[i];
-          projectlist.push(projectdata.project)
+          projectlist.push(projectdata.projectname)
         }
       }
       this.setState({
@@ -113,21 +113,12 @@ class SearchBar extends React.Component{
                 <Col span={14} className='info_input'>
                 <Select defaultValue="" style={{ width: 355 }} 
                  onChange={(e) => this.selectChangedep(e)} 
-                //  options={this.state.departlist.toString()}
                  value={this.state.doctordepart}>
                    {this.state.departlist.map((value,  label) => (
                     <Option key={value} value={value}>
                       {value}
                     </Option>
-                    ))}
-                    {/* <Option value="man">骨科</Option>
-                    <Option value="woman">儿科</Option> */}
-                    {/* {this.state.departlist.map((item,index)=>{
-                      {item};
-                    })} */}
-                    {/* {this.mapdeplist()} */}
-                    
-                    
+                    ))}      
                 </Select>
                 </Col>
             </Col>
@@ -142,8 +133,6 @@ class SearchBar extends React.Component{
                       {value}
                     </Option>
                     ))}
-                  {/* <Option value="man">111</Option>
-                  <Option value="woman">222</Option> */}
               </Select>
               </Col>
             </Col>

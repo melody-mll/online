@@ -75,10 +75,18 @@ export function GetdepartList(data){
         data:data
     }) 
 }
-//得到所有的项目信息
+//得到所选科室下所有的项目信息
 export function GetprojectList(data){
     return service.request({
         url:"/getprojectlist/",
+        method:"get",
+        data:data
+    }) 
+}
+//得到所有的项目信息
+export function GetAllprojectList(data){
+    return service.request({
+        url:"/getallprojectlist/",
         method:"get",
         data:data
     }) 
@@ -95,6 +103,30 @@ export function GetScheduleDoctor(data){
 export function SaveEditSchedule(data){
     return service.request({
         url:"/saveeditschedule/",
+        method:"get",
+        data:data
+    }) 
+}
+//编辑保存科室时，更新数据
+export function Savedepartlist(data){
+    return service.request({
+        url:"/savedepartlist/",
+        method:"get",
+        data:data
+    }) 
+}
+//编辑保存项目时，更新数据
+export function Saveprojectlist(data){
+    return service.request({
+        url:"/saveprojectlist/",
+        method:"get",
+        data:data
+    }) 
+}
+//从接口获取所有的患者信息
+export function Getpatientlist(data){
+    return service.request({
+        url:"/getpatientlist/",
         method:"get",
         data:data
     }) 

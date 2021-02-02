@@ -1,6 +1,6 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
-import {Savedoctorlist} from '../../service/account'//导入接口
+import {Savedoctorlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
 class DoctorEdit extends React.Component{
   constructor(props){
     super(props);
@@ -15,12 +15,55 @@ class DoctorEdit extends React.Component{
         doctordepart:this.props.doctordepart,
         doctorproject:this.props.doctorproject,
         editvisible:this.props.editvisible,
-        edittype:this.props.edittype
+        edittype:this.props.edittype,
+        departlist:[],
+        projectlist:[]
     }
     // this.state=store.getState();
 //     store.subscribe(()=>{
 //       this.setState(store.getState())
 //   })
+  }
+  componentWillMount() {
+    GetdepartList().then(response=>{
+      console.log(response.data.data,'1');
+      const data=response.data.data;
+      if(data){
+        var departlist=[];
+        for(var i=0,len=data.length;i<len;i++){
+          var departdata=data[i];
+          departlist.push(departdata.depart)
+        }
+      }
+      this.setState({
+        departlist:departlist
+      })
+      console.log('11111',this.state.departlist);
+    }).catch(error=>{
+      console.log(error);
+      }) 
+
+    GetprojectList().then(response=>{
+      const data=response.data.data;
+      if(data){
+        var projectlist=[];
+        for(var i=0,len=data.length;i<len;i++){
+          var projectdata=data[i];
+          projectlist.push(projectdata.projectname)
+        }
+      }
+      this.setState({
+        projectlist:projectlist
+      })
+      console.log('projectlist',this.state.projectlist);
+      console.log(response.data.data,'1');
+      // this.setState({
+      //   doctorproject:response.data.data
+      // })
+    }).catch(error=>{
+      console.log(error);
+      })  
+
   }
 inputChange = (prop,e)=>{
     if(prop === 'doctorid'){
@@ -221,9 +264,14 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                    <Select defaultValue="" style={{ width: 355 }}  onChange={(e) => this.selectChange('doctordepart',e)} value={this.state.doctordepart}>
-                    <Option value="man">骨科</Option>
-                    <Option value="woman">儿科</Option>
+                    <Select defaultValue="" style={{ width: 355 }} 
+                    onChange={(e) => this.selectChange('doctordepart',e)}
+                    value={this.state.doctordepart}>
+                      {this.state.departlist.map((value,  label) => (
+                        <Option key={value} value={value}>
+                          {value}
+                        </Option>
+                        ))}      
                     </Select>
                     </Col>
                 </Row>
@@ -234,9 +282,14 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                    <Select defaultValue="" style={{ width: 355 }} onChange={(e) => this.selectChange('doctorproject',e)} value={this.state.doctorproject}>
-                    <Option value="man">111</Option>
-                    <Option value="woman">222</Option>
+                    <Select defaultValue="" style={{ width: 355 }} 
+                    onChange={(e) => this.selectChange('doctorproject',e)}
+                    value={this.state.doctorproject}>
+                      {this.state.projectlist.map((value,  label) => (
+                          <Option key={value} value={value}>
+                            {value}
+                          </Option>
+                          ))}
                     </Select>
                     </Col>
                 </Row>
