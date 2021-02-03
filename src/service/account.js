@@ -123,6 +123,22 @@ export function Saveprojectlist(data){
         data:data
     }) 
 }
+//从接口获取预约信息中的所有的患者信息
+export function Getregisterinformationlist(data){
+    return service.request({
+        url:"/getregisterinformationlist/",
+        method:"get",
+        data:data
+    }) 
+}
+//预约信息更改后进行保存
+export function Saveregisterinformation(data){
+    return service.request({
+        url:"/saveregisterinformation/",
+        method:"get",
+        data:data
+    }) 
+}
 //从接口获取所有的患者信息
 export function Getpatientlist(data){
     return service.request({
