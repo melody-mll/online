@@ -1,8 +1,10 @@
 import React,{Fragment}  from 'react';
 import moment from 'moment';
+import "./style.css";
+import {PictureTwoTone} from "@ant-design/icons";
 import { Button,Modal,Row,Col, Input,Select, message,DatePicker} from 'antd';
 import {Savepatientlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
-class PatientEdit extends React.Component{
+class PatientChat extends React.Component{
   constructor(props){
     super(props);
     // this.state=store.getState();
@@ -18,7 +20,7 @@ class PatientEdit extends React.Component{
       diseasename:this.props.diseasename,
       diseasedetail:this.props.diseasedetail,
       clinicdate:clinicdates,
-      editvisible:this.props.editvisible
+      chatvisible:this.props.chatvisible
     }
     // this.state=store.getState();
 //     store.subscribe(()=>{
@@ -128,7 +130,7 @@ inputChange = (prop,e)=>{
   }
   handleCancel = () => {
     this.setState({   
-        editvisible:!this.state.editvisible
+        chatvisible:!this.state.chatvisible
     })
   };
   formSubmitEvent = () =>{
@@ -173,7 +175,7 @@ inputChange = (prop,e)=>{
       clinicdate:this.state.clinicdate,
     }
     this.setState({
-      editvisible:!this.state.editvisible
+      chatvisible:!this.state.chatvisible
     })
     //编辑医生保存后，调用后端接口，把数据传给后端
     const requestData=payload;
@@ -187,7 +189,7 @@ inputChange = (prop,e)=>{
   }
   closeModalEvent = () =>{
     this.setState({
-      editvisible:false
+      chatvisible:false
   })
   }
   render(){
@@ -195,8 +197,9 @@ inputChange = (prop,e)=>{
     const { TextArea } = Input;
     return (
         <Fragment>
-          <Modal title="编辑病人" visible={this.state.editvisible} onCancel={this.handleCancel} footer={null}>
+          <Modal title="详情" visible={this.state.chatvisible} width="1000px" onCancel={this.handleCancel} footer={null}>
             <div>
+              <div className="detail_left">
             <Row className="form_padding">
                     <Col span={6}>
                         <span className="form_title">
@@ -204,10 +207,11 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input 
+                       {/* <Input 
                        onChange={(e) => this.inputChange('patientname',e)} value={this.state.patientname}
                        
-                       /> 
+                       />  */}
+                       <span style={{lineHeight:"30px"}}>{this.state.patientname}</span>
                     </Col>
                 </Row>
                 <Row className="form_padding">
@@ -221,10 +225,11 @@ inputChange = (prop,e)=>{
                        onChange={(e) => this.inputChange('patientsex',e)} value={this.state.patientsex}
                       
                        />  */}
-                       <Select style={{ width: 355 }} onChange={(e) => this.selectChange('patientsex',e)}  value={this.state.patientsex}>
+                       {/* <Select style={{ width: 355 }} onChange={(e) => this.selectChange('patientsex',e)}  value={this.state.patientsex}>
                         <Option value="man">男</Option>
                         <Option value="woman">女</Option>
-                      </Select>
+                      </Select> */}
+                      <span style={{lineHeight:"30px"}}>{this.state.patientsex}</span>
                     </Col>
                 </Row>
                 <Row className="form_padding">
@@ -234,10 +239,7 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('patientid',e)} value={this.state.patientid}
-                      
-                       /> 
+                    <span style={{lineHeight:"30px"}}>{this.state.patientid}</span>
                     </Col>
                 </Row>
                 <Row className="form_padding">
@@ -247,10 +249,7 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('patientage',e)} value={this.state.patientage}
-                       
-                       /> 
+                    <span style={{lineHeight:"30px"}}>{this.state.patientage}</span>
                     </Col>
                 </Row>
                 <Row className="form_padding">
@@ -260,10 +259,7 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('patientphone',e)} value={this.state.patientphone}
-                       
-                       /> 
+                    <span style={{lineHeight:"30px"}}>{this.state.patientphone}</span>
                     </Col>
                 </Row>
                 <Row className="form_padding">
@@ -273,10 +269,7 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input
-                       onChange={(e) => this.inputChange('diseasename',e)} value={this.state.diseasename}
-                       
-                       /> 
+                    <span style={{lineHeight:"30px"}}>{this.state.diseasename}</span>
                        
                     </Col>
                 </Row>
@@ -291,9 +284,7 @@ inputChange = (prop,e)=>{
                        onChange={(e) => this.inputChange('diseasedetail',e)} value={this.state.diseasedetail}
                        
                        />  */}
-                       <TextArea rows={4}  
-                       onChange={(e) => this.inputChange('diseasedetail',e)} 
-                       value={this.state.diseasedetail}/>
+                       <span style={{lineHeight:"30px"}}>{this.state.diseasedetail}</span>
                     </Col>
                 </Row>
                 <Row className="form_padding">
@@ -316,20 +307,37 @@ inputChange = (prop,e)=>{
                 </Col>
                 
                 </Row>
+                </div>
+                <div className="chat_right"
+                >
+                  <div className="chat_right_chat"></div>
+                  <div className="chat_right_send">
+                  
+                    <div className="send_information">
+                      <div style={{marginLeft:"5px"}}><PictureTwoTone /></div>
+                      <div style={{marginLeft:"5px"}}>请输入消息</div>
+                    </div>
+                    <div className="send_button">
+                      <button>
+                        发送
+                      </button>
+                    </div>
+                  </div>
+                </div>
                 
-                <div className="buttonmain">
-                  <Button
+                <div className="buttonmain" style={{clear:'both'}}>
+                  {/* <Button
                     className="buttonsave_content"
                     type="primary"
                     onClick={this.formSubmitEvent}
                   >
                     <span style={{ letterSpacing: '2px' }}>保存</span>
-                  </Button>
+                  </Button> */}
                   <Button
                     className="buttoncancel_content"
                     onClick={this.closeModalEvent}
                   >
-                    <span style={{ letterSpacing: '2px' }}>
+                    <span style={{ letterSpacing: '2px' ,margin:"auto"}} >
                       取消
                     </span>
                   </Button>
@@ -340,4 +348,4 @@ inputChange = (prop,e)=>{
       );
     };
   }
-export default PatientEdit;
+export default PatientChat;

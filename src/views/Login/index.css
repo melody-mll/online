@@ -1,6 +1,12 @@
 body{
-    background-color: bisque !important;
-    height: 400px;
+    /* background-color: bisque !important; */
+    background-image: url(../../images/background.jfif);
+    background-size: 100% 100%;
+                background-position: center center;
+                overflow: auto;
+    /* height: 400px; */
+    height: 100%;
+    background-attachment:fixed
 }
 .form-wrap{
     display: flex;
@@ -8,7 +14,8 @@ body{
     height: 350px;
     margin:100px auto;
     align-items: center;
-    background: rgba(255,255,255,0.3) ;   
+    /* background: rgba(255,255,255,0.3) ;    */
+    background-color: white;
 }
 .form-wrap-register{
     display: flex;
@@ -16,7 +23,8 @@ body{
     height: 500px;
     margin:100px auto;
     align-items: center;
-    background: rgba(255,255,255,0.3) ;     
+    /* background: rgba(255,255,255,0.3) ;      */
+    background-color: white;
 }
 .form-wrap div{
     width: 100%;

@@ -16,13 +16,31 @@ class LayoutHeader extends Component{
     iconclick = ()=>{
         this.props.iconCollapsed();
     }
+    
     render(){
         const {collapsed} = this.state;
+        let date = new Date().getDate();
+        let month = new Date().getMonth() + 1;
+        let year = new Date().getFullYear();
+        // let zhou=new Date().getDay(); 这种方式也可以获取周几
+        let hour = new Date().getHours();
+        let minute = new Date().getMinutes();
+        let seconds = new Date().getSeconds();
+        const value=year+"-"+month+"-"+date;
+        const day = new Date(Date.parse(value.replace(/-/g, '/')));
+        const today = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+        //    const newdate=new Date("month dd,yyyy hh:mm:ss");
+        //    console.log(newdate);
+       
         return (
             <Fragment>
                     <h1 className={collapsed ? "logoclose":"logo"}><span className={collapsed ? "blockclose" : "block" }></span></h1>               
                 <div className={collapsed?"header-wrapclose":"header-wrap"}>
                     <span style={{fontSize:"24px"}} onClick={this.iconclick}><MenuFoldOutlined /></span>
+                    {/* <span>{newdate}</span> */}
+                    
+                    <span style={{marginLeft:"800px"}}>{year+"-"+month+"-"+date+"  "}</span>
+                    <span style={{marginLeft:"20px"}}>{today[day.getDay()]}</span>
                 </div>
             </Fragment>
         )

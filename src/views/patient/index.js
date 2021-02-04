@@ -1,4 +1,8 @@
 import React, { Fragment } from 'react';
+import PatientEdit from "./editpatient";
+import PatientAdd from "./addpatient";
+import PatientChat from "./chatpatient";
+import {PlusOutlined } from "@ant-design/icons";
 import { Table,Button,Row,Col,Input, Select,DatePicker } from 'antd';
 import {Getpatientlist} from '../../service/account'//导入接口
 class PatientList extends React.Component{
@@ -7,7 +11,16 @@ class PatientList extends React.Component{
     this.state={
       list:[],
       editvisible:false,
-      
+      addvisible:false,
+      chatvisible:false,
+      patientname:"",
+      patientsex:"",
+      patientid:"",
+      patientage:"",
+      patientphone:"",
+      diseasename:"",  
+      diseasedetail:"",
+      clinicdate:""
     };
   }
   componentWillMount() {
@@ -20,7 +33,79 @@ class PatientList extends React.Component{
     })
   }
   editFunc=(record)=>{
-    console.log(record);
+    const {
+      patientname,
+      patientsex,
+      patientid,
+      patientage,
+      patientphone,
+      diseasename,  
+      diseasedetail,
+      clinicdate} = record;
+      this.setState({
+        patientname,
+        patientsex,
+        patientid,
+        patientage,
+        patientphone,
+        diseasename,  
+        diseasedetail,
+        clinicdate,
+        editvisible:!this.state.editvisible
+      })
+  }
+
+  chatFunc=(record)=>{
+    const {
+      patientname,
+      patientsex,
+      patientid,
+      patientage,
+      patientphone,
+      diseasename,  
+      diseasedetail,
+      clinicdate} = record;
+      this.setState({
+        patientname,
+        patientsex,
+        patientid,
+        patientage,
+        patientphone,
+        diseasename,  
+        diseasedetail,
+        clinicdate,
+        chatvisible:!this.state.chatvisible
+      })
+  }
+
+  changeInputname=(e)=>{
+    this.setState({
+      patientname:e.target.value
+    })
+  }
+  changeInputid=(e)=>{
+    this.setState({
+      patientid:e.target.value
+    })
+  }
+  patientlistSearch=()=>{
+    console.log(this.state);
+    const requestData = {
+      patientname:this.state.patientname,
+      patientid:this.state.patientid,
+    }
+    Getpatientlist(requestData).then(response=>{
+      const list=response.data.data;
+      this.setState({
+        list
+      })
+    }).catch(error=>{
+    })
+  }
+  addFunc=()=>{
+    this.setState({
+      addvisible:!this.state.addvisible
+    })
   }
   render(){
     const columns=[
@@ -35,6 +120,12 @@ class PatientList extends React.Component{
         width: 120,
         dataIndex: 'patientsex',
         key: 'patientsex',
+      },
+      {
+        title: '患者证件号 ',
+        width: 240,
+        dataIndex: 'patientid',
+        key: 'patientid',
       },
       {
         title: '患者年龄 ',
@@ -82,11 +173,11 @@ class PatientList extends React.Component{
         title: '操作',
         fixed:'right',
         width: 120,
-        dataIndex: 'editdep',
-        key: 'editdep',
+        dataIndex: 'chat',
+        key: 'chat',
         render: (text, record) => {
           return (
-            <a onClick={() => this.editFunc(record)}>在线沟通</a>
+            <a onClick={() => this.chatFunc(record)}>在线沟通</a>
           );
         }
       }
@@ -95,6 +186,32 @@ class PatientList extends React.Component{
     ]
     return (    
       <Fragment>
+
+        <Row>
+            <Col span={8}>
+                <Col span={10} className='info_label'>患者姓名：</Col>
+                <Col span={14} className='info_input'>
+                    <Input onChange={(e) => this.changeInputname(e)} value={this.state.patientname} />
+                </Col>
+            </Col>
+              <Col span={8}>
+              <Col span={10} className='info_label'>患者证件号：</Col>
+                <Col span={14} className='info_input'>
+                    <Input onChange={(e) => this.changeInputid(e)}  value={this.state.patientid} />
+                </Col>
+              </Col>
+        </Row>
+        <Button
+          className="button_search"
+          type="primary"
+          onClick={this.patientlistSearch}
+        >
+          查询
+        </Button>
+        <Button style={{ display: 'block',marginBottom:'10px'}} 
+            type='primary' onClick={() => this.addFunc()}><span
+              style={{ letterSpacing: '2px' }}><PlusOutlined />添加</span>
+        </Button>        
         <Table
           columns={columns}
           dataSource={this.state.list}
@@ -105,6 +222,29 @@ class PatientList extends React.Component{
             }
           }
           />
+          {this.state.editvisible && <PatientEdit 
+          patientname={this.state.patientname}
+          patientsex={this.state.patientsex}
+          patientid={this.state.patientid}
+          patientage={this.state.patientage}
+          patientphone={this.state.patientphone}
+          diseasename={this.state.diseasename} 
+          diseasedetail={this.state.diseasedetail}
+          clinicdate={this.state.clinicdate}
+          editvisible={this.state.editvisible}/>}
+          {this.state.chatvisible && <PatientChat 
+          patientname={this.state.patientname}
+          patientsex={this.state.patientsex}
+          patientid={this.state.patientid}
+          patientage={this.state.patientage}
+          patientphone={this.state.patientphone}
+          diseasename={this.state.diseasename} 
+          diseasedetail={this.state.diseasedetail}
+          clinicdate={this.state.clinicdate}
+          chatvisible={this.state.chatvisible}/>}
+          {this.state.addvisible && <PatientAdd 
+          addvisible={this.state.addvisible} 
+          />}   
       </Fragment>
     )
   }

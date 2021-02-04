@@ -65,6 +65,7 @@ class DepartDelete extends React.Component{
                     </Col>
                     <Col span={18}>
                        <Input
+                       disabled={true}
                        onChange={(e) => this.inputChangeid(e)} value={this.state.departid}
                        placeholder="请输入科室编号"
                        /> 
@@ -78,6 +79,7 @@ class DepartDelete extends React.Component{
                     </Col>
                     <Col span={18}>
                        <Input
+                       disabled={true}
                        onChange={(e) => this.inputChange(e)} value={this.state.depart}
                        placeholder="请输入科室名称"
                        /> 

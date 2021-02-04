@@ -2,23 +2,23 @@ import React,{Fragment}  from 'react';
 import moment from 'moment';
 import { Button,Modal,Row,Col, Input,Select, message,DatePicker} from 'antd';
 import {Savepatientlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
-class PatientEdit extends React.Component{
+class PatientAdd extends React.Component{
   constructor(props){
     super(props);
     // this.state=store.getState();
-    const dateFormat = 'YYYY-MM-DD'; 
-    const clinicdate=this.props.clinicdate;
-    const clinicdates=moment(clinicdate).format(dateFormat);
+    // const dateFormat = 'YYYY-MM-DD'; 
+    // const clinicdate=this.props.clinicdate;
+    // const clinicdates=moment(clinicdate).format(dateFormat);
     this.state={
-      patientname:this.props.patientname,
-      patientsex:this.props.patientsex,
-      patientid:this.props.patientid,
-      patientage:this.props.patientage,
-      patientphone:this.props.patientphone,
-      diseasename:this.props.diseasename,
-      diseasedetail:this.props.diseasedetail,
-      clinicdate:clinicdates,
-      editvisible:this.props.editvisible
+      patientname:"",
+      patientsex:"",
+      patientid:"",
+      patientage:"",
+      patientphone:"",
+      diseasename:"",
+      diseasedetail:"",
+      clinicdate:"",
+      addvisible:this.props.addvisible
     }
     // this.state=store.getState();
 //     store.subscribe(()=>{
@@ -116,11 +116,11 @@ inputChange = (prop,e)=>{
     } 
   }
   onChangedate=(date, dateString) => {
-    // const dateFormat = 'YYYY-MM-DD';
-    // const data=moment(dateString);
-    // this.setState({
-    //   clinicdate:data
-    // });
+    const dateFormat = 'YYYY-MM-DD';
+    const data=moment(dateString);
+    this.setState({
+      clinicdate:data
+    });
     // this.setState({
     //   registerdate:this.state.registerdate.format(dateFormat)
     // })
@@ -128,7 +128,7 @@ inputChange = (prop,e)=>{
   }
   handleCancel = () => {
     this.setState({   
-        editvisible:!this.state.editvisible
+        addvisible:!this.state.addvisible
     })
   };
   formSubmitEvent = () =>{
@@ -162,7 +162,9 @@ inputChange = (prop,e)=>{
     // if(!this.state.doctorproject){
     //   return message.warning("医生所属项目不可为空！！！");
     // }
-    const payload={
+    const dateFormat = 'YYYY-MM-DD';
+    const datefor=this.state.clinicdate;
+    const payload = {
       patientname:this.state.patientname,
       patientsex:this.state.patientsex,
       patientid:this.state.patientid,
@@ -170,10 +172,11 @@ inputChange = (prop,e)=>{
       patientphone:this.state.patientphone,
       diseasename:this.state.diseasename,
       diseasedetail:this.state.diseasedetail,
-      clinicdate:this.state.clinicdate,
+      clinicdate:moment(datefor).format(dateFormat),
     }
+    console.log('88',payload);
     this.setState({
-      editvisible:!this.state.editvisible
+      addvisible:!this.state.addvisible
     })
     //编辑医生保存后，调用后端接口，把数据传给后端
     const requestData=payload;
@@ -187,7 +190,7 @@ inputChange = (prop,e)=>{
   }
   closeModalEvent = () =>{
     this.setState({
-      editvisible:false
+      addvisible:false
   })
   }
   render(){
@@ -195,7 +198,7 @@ inputChange = (prop,e)=>{
     const { TextArea } = Input;
     return (
         <Fragment>
-          <Modal title="编辑病人" visible={this.state.editvisible} onCancel={this.handleCancel} footer={null}>
+          <Modal title="添加病人" visible={this.state.addvisible} onCancel={this.handleCancel} footer={null}>
             <div>
             <Row className="form_padding">
                     <Col span={6}>
@@ -308,12 +311,12 @@ inputChange = (prop,e)=>{
                        
                        />  */}
                        
-                    {/* <DatePicker onChange={(date, dateString) =>
-                      this.onChangedate(date, dateString)}  */}
-                      {/* value={this.state.clinicdate} */}
-                      {/* allowClear={false}/> */}
-                      <span style={{lineHeight:"35px"}}>{this.state.clinicdate}</span>
-                </Col>
+                    <DatePicker onChange={(date, dateString) =>
+                      this.onChangedate(date, dateString)} 
+                      value={this.state.clinicdate} 
+                      allowClear={false}/>
+                      {/* <span style={{lineHeight:"35px"}}>{this.state.clinicdate}</span> */}
+                    </Col>
                 
                 </Row>
                 
@@ -340,4 +343,4 @@ inputChange = (prop,e)=>{
       );
     };
   }
-export default PatientEdit;
+export default PatientAdd;

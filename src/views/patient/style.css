@@ -1,0 +1,21 @@
+.detail_left{
+    display: inline-block;
+}
+.chat_right{
+    display: inline-block;
+    border: 1px solid brown;
+}
+.chat_right_chat{
+    width: 450px;
+    height: 300px;
+}
+.chat_right_send{
+    height: 200px;
+}
+.send_information{
+    border-top: 1px solid brown;
+    color: gray;
+}
+.send_button{
+    margin-left: 400px;
+}

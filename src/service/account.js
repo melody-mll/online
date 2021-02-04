@@ -147,4 +147,12 @@ export function Getpatientlist(data){
         data:data
     }) 
 }
+//患者信息新增更改后进行保存
+export function Savepatientlist(data){
+    return service.request({
+        url:"/savepatientlist/",
+        method:"get",
+        data:data
+    }) 
+}
 
