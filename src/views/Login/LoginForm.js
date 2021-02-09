@@ -23,8 +23,15 @@ class LoginForm extends Component{
             code:this.state.code
         }
         Login(requestData).then(response=>{
-            message.success(response.data.message)
-            this.props.history.push('./index')
+            
+            // this.props.history.push('./index')
+            if(response.data.rescode == 1){
+                message.success(response.data.message)
+                this.props.history.push({pathname:'./index',query:{
+                    names:this.state.username
+                }},
+                )}else{
+                 message.error(response.data.message)}
             //通过withRouter加工后的组件会多一个history props,可以通过history跳转路由
         }).catch(error=>{
         })

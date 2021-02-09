@@ -55,3 +55,16 @@
     transition: all .2s ease 0s;
     margin-left: 35px;
 }
+.header_date{
+    margin-left: 600px;
+    color: skyblue;
+    font-weight: 900;
+}
+.header_week{
+    margin-left: 20px;
+    color: skyblue;
+    font-weight: 900;
+}
+.header_nowuser{
+    margin-left: 160px;
+}

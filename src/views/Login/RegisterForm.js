@@ -11,6 +11,8 @@ class RegisterForm extends Component{
             username:"",
             password:"",
             code:"",
+            telephone:"",
+            email:"",
             module:"register"
         };
     }
@@ -18,12 +20,19 @@ class RegisterForm extends Component{
         const requestData ={
             username:this.state.username,
             password:this.state.password,
+            telephone:this.state.telephone,
+            email:this.state.email,
             code:this.state.code
         }
         console.log(requestData);
         Register(requestData).then(response=>{
-            message.success(response.data.message)
-            console.log(response)
+            if(response.data.rescode == 1){
+                message.success(response.data.message)
+                console.log(response)
+            }else{
+                message.error(response.data.message)
+            }
+            
         }).catch(error=>{
             
         })
@@ -61,6 +70,18 @@ class RegisterForm extends Component{
             password:value
         })
     }
+    inputChangeTelephone=(e)=>{
+        let value=e.target.value;
+        this.setState({
+            telephone:value
+        })
+    }
+    inputChangeEmail=(e)=>{
+        let value=e.target.value;
+        this.setState({
+            email:value
+        })
+    }
     inputChangeCode=(e)=>{
         let value=e.target.value;
         this.setState({
@@ -86,7 +107,7 @@ class RegisterForm extends Component{
                         <Col span={16}>
                         <Form.Item name="username" rules={[{ required: true, message: '请输入用户名!' }]}>                          
                             <Input onChange={this.inputChangeUsername}
-                            prefix={<UserOutlined className="site-form-item-icon" />}placeholder="Username"/>                      
+                            prefix={<UserOutlined className="site-form-item-icon" />}placeholder="请输入用户名"/>                      
                         </Form.Item>
                         </Col>
                         </Row>
@@ -94,7 +115,7 @@ class RegisterForm extends Component{
                         <Col span={6} className="username">密码：
                         </Col>
                         <Col span={16}>
-                        <Form.Item name="password" rules={[{ required: true, message: '请输入密码!' },
+                        <Form.Item name="password" rules={[{ required: true, message: '请输入密码!' },{pattern:/^[0-9a-zA-Z_-]{6}$/g,message:"请输入6位包含数字或字母的密码"},
                     ({getFieldValue})=>({
                         validator(rule,value){
                         let confirmpassword_value=getFieldValue('confirmpassword');
@@ -106,7 +127,7 @@ class RegisterForm extends Component{
                     }),
                     ]}>                          
                             <Input type="password" onChange={this.inputChangePassword} 
-                            prefix={<UnlockOutlined  className="site-form-item-icon" />}placeholder="Password"/>                      
+                            prefix={<UnlockOutlined  className="site-form-item-icon" />}placeholder="请输入6位数密码"/>                      
                         </Form.Item>
                         </Col>
                         </Row>
@@ -125,7 +146,7 @@ class RegisterForm extends Component{
                           }),
                           ]}>                          
                             <Input type="password"
-                            prefix={<UnlockOutlined  className="site-form-item-icon" />}placeholder="Password"/>                      
+                            prefix={<UnlockOutlined  className="site-form-item-icon" />}placeholder="请再次输入密码!"/>                      
                         </Form.Item>
                         </Col>
                         </Row>
@@ -135,8 +156,8 @@ class RegisterForm extends Component{
                         <Col span={16}>
                         <Form.Item name="telephone" rules={[{ required: true, message: '请输入您的电话号码!' },{pattern:/^1[0-9]{10}$/g,message:"请输入11位手机号"}]
                              }>                          
-                            <Input
-                            prefix={<MobileOutlined   className="site-form-item-icon" />}placeholder="Telephone"/>                      
+                            <Input onChange={this.inputChangeTelephone}
+                            prefix={<MobileOutlined   className="site-form-item-icon" />}placeholder="请输入您的电话号码!"/>                      
                         </Form.Item>
                         </Col>
                         </Row>
@@ -146,8 +167,8 @@ class RegisterForm extends Component{
                         <Col span={16}>
                         <Form.Item name="email" rules={[{ required: true, message: '请输入您的邮箱!' },
                         {type: "email",message: "请输入正确的邮箱格式"}]}>                          
-                            <Input
-                            prefix={<FileMarkdownOutlined   className="site-form-item-icon" />}placeholder="email"/>                      
+                            <Input onChange={this.inputChangeEmail}
+                            prefix={<FileMarkdownOutlined   className="site-form-item-icon" />}placeholder="请输入您的邮箱!"/>                      
                         </Form.Item>
                         </Col>
                         </Row>

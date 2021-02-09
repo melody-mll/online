@@ -11,7 +11,8 @@ class Index extends Component{
     constructor(props){
         super(props);
         this.state={
-          collapsed:false
+          collapsed:false,
+          // usernow:this.props.location.query.names
         };
     }
     iconCollapsed = () =>{
@@ -20,9 +21,10 @@ class Index extends Component{
       })
     }
     render(){
+      // console.log('0208',this.props.location.query.names)
         return (
             <Layout className="layout-wrap">
-              <Header className="layout-header" ><LayoutHeader iconCollapsed={this.iconCollapsed} collapsed={this.state.collapsed}/></Header>   
+              <Header className="layout-header" ><LayoutHeader  iconCollapsed={this.iconCollapsed} collapsed={this.state.collapsed}/></Header>   
             <Layout>     
               <Sider width="250px" collapsed={this.state.collapsed}><Aside/></Sider>             
               <Content className="layout-main">

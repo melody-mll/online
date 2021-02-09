@@ -1,7 +1,7 @@
 import React,{Fragment}  from 'react';
 import moment from 'moment';
 import { Button,Modal,Row,Col, Input,Select, message,DatePicker} from 'antd';
-import {Savepatientlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
+import {Updatepatientlist} from '../../service/account'//导入接口
 class PatientEdit extends React.Component{
   constructor(props){
     super(props);
@@ -10,6 +10,7 @@ class PatientEdit extends React.Component{
     const clinicdate=this.props.clinicdate;
     const clinicdates=moment(clinicdate).format(dateFormat);
     this.state={
+      patientsqlid:this.props.patientsqlid,
       patientname:this.props.patientname,
       patientsex:this.props.patientsex,
       patientid:this.props.patientid,
@@ -20,52 +21,8 @@ class PatientEdit extends React.Component{
       clinicdate:clinicdates,
       editvisible:this.props.editvisible
     }
-    // this.state=store.getState();
-//     store.subscribe(()=>{
-//       this.setState(store.getState())
-//   })
   }
-  componentWillMount() {
-    GetdepartList().then(response=>{
-      console.log(response.data.data,'1');
-      const data=response.data.data;
-      if(data){
-        var departlist=[];
-        for(var i=0,len=data.length;i<len;i++){
-          var departdata=data[i];
-          departlist.push(departdata.depart)
-        }
-      }
-      this.setState({
-        departlist:departlist
-      })
-      console.log('11111',this.state.departlist);
-    }).catch(error=>{
-      console.log(error);
-      }) 
-
-    GetprojectList().then(response=>{
-      const data=response.data.data;
-      if(data){
-        var projectlist=[];
-        for(var i=0,len=data.length;i<len;i++){
-          var projectdata=data[i];
-          projectlist.push(projectdata.projectname)
-        }
-      }
-      this.setState({
-        projectlist:projectlist
-      })
-      console.log('projectlist',this.state.projectlist);
-      console.log(response.data.data,'1');
-      // this.setState({
-      //   doctorproject:response.data.data
-      // })
-    }).catch(error=>{
-      console.log(error);
-      })  
-
-  }
+ 
 inputChange = (prop,e)=>{
     if(prop === 'patientname'){
         this.setState({
@@ -163,6 +120,7 @@ inputChange = (prop,e)=>{
     //   return message.warning("医生所属项目不可为空！！！");
     // }
     const payload={
+      patientsqlid:this.state.patientsqlid,
       patientname:this.state.patientname,
       patientsex:this.state.patientsex,
       patientid:this.state.patientid,
@@ -175,9 +133,9 @@ inputChange = (prop,e)=>{
     this.setState({
       editvisible:!this.state.editvisible
     })
-    //编辑医生保存后，调用后端接口，把数据传给后端
+    //编辑医生保存后，对患者信息进行更新
     const requestData=payload;
-    Savepatientlist(requestData).then(response=>{
+    Updatepatientlist(requestData).then(response=>{
       message.success(response.data.message)
       console.log(response.data.data);
     }).catch(error=>{

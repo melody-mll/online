@@ -5,7 +5,8 @@ class LayoutHeader extends Component{
     constructor(props){
         super(props);
         this.state={
-            collapsed:props.collapsed
+            collapsed:props.collapsed,
+            // usernow:this.props.usernow
         };
     }
     componentWillReceiveProps({collapsed}){
@@ -39,8 +40,9 @@ class LayoutHeader extends Component{
                     <span style={{fontSize:"24px"}} onClick={this.iconclick}><MenuFoldOutlined /></span>
                     {/* <span>{newdate}</span> */}
                     
-                    <span style={{marginLeft:"800px"}}>{year+"-"+month+"-"+date+"  "}</span>
-                    <span style={{marginLeft:"20px"}}>{today[day.getDay()]}</span>
+                    <span className="header_date">{year+"-"+month+"-"+date+"  "}</span>
+                    <span className="header_week">{today[day.getDay()]}</span>
+                    {/* <span className="header_nowuser">当前用户：{this.state.usernow}</span> */}
                 </div>
             </Fragment>
         )

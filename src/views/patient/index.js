@@ -3,7 +3,7 @@ import PatientEdit from "./editpatient";
 import PatientAdd from "./addpatient";
 import PatientChat from "./chatpatient";
 import {PlusOutlined } from "@ant-design/icons";
-import { Table,Button,Row,Col,Input, Select,DatePicker } from 'antd';
+import { Table,Button,Row,Col,Input, message } from 'antd';
 import {Getpatientlist} from '../../service/account'//导入接口
 class PatientList extends React.Component{
   constructor(props){
@@ -13,6 +13,7 @@ class PatientList extends React.Component{
       editvisible:false,
       addvisible:false,
       chatvisible:false,
+      patientsqlid:"",
       patientname:"",
       patientsex:"",
       patientid:"",
@@ -33,6 +34,8 @@ class PatientList extends React.Component{
     })
   }
   editFunc=(record)=>{
+    console.log('record',record);
+    const patientsqlid=record._id;
     const {
       patientname,
       patientsex,
@@ -43,6 +46,7 @@ class PatientList extends React.Component{
       diseasedetail,
       clinicdate} = record;
       this.setState({
+        patientsqlid,
         patientname,
         patientsex,
         patientid,
@@ -89,11 +93,19 @@ class PatientList extends React.Component{
     })
   }
   patientlistSearch=()=>{
+    // if(!this.state.patientname){
+    //   return message.warning("患者姓名不可为空");
+    // }
+    if(!this.state.patientid){
+      return message.warning("患者证件号不可为空");
+    }
     console.log(this.state);
     const requestData = {
+      action:"query",
       patientname:this.state.patientname,
       patientid:this.state.patientid,
     }
+    console.log('requestData',requestData);
     Getpatientlist(requestData).then(response=>{
       const list=response.data.data;
       this.setState({
@@ -223,6 +235,7 @@ class PatientList extends React.Component{
           }
           />
           {this.state.editvisible && <PatientEdit 
+          patientsqlid={this.state.patientsqlid}
           patientname={this.state.patientname}
           patientsex={this.state.patientsex}
           patientid={this.state.patientid}
