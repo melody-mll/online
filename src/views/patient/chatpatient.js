@@ -1,9 +1,15 @@
 import React,{Fragment}  from 'react';
 import moment from 'moment';
-import "./style.css";
+import styles from "./style.css";
+import Chat from './chat';
+import WebsocketHeartbeat from 'websocket-heartbeat-miniprogram';
 import {PictureTwoTone} from "@ant-design/icons";
 import { Button,Modal,Row,Col, Input,Select, message,DatePicker} from 'antd';
-import {Savepatientlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
+import {Savepatientlist,GetdepartList,GetprojectList,Getchatrecord} from '../../service/account'//导入接口
+
+const myIcon = require('../../images/player-self.png');
+const otherSideIcon = require('../../images/player-other.png');
+
 class PatientChat extends React.Component{
   constructor(props){
     super(props);
@@ -20,7 +26,9 @@ class PatientChat extends React.Component{
       diseasename:this.props.diseasename,
       diseasedetail:this.props.diseasedetail,
       clinicdate:clinicdates,
-      chatvisible:this.props.chatvisible
+      chatvisible:this.props.chatvisible,
+      list:[],
+      text:''
     }
     // this.state=store.getState();
 //     store.subscribe(()=>{
@@ -28,46 +36,96 @@ class PatientChat extends React.Component{
 //   })
   }
   componentWillMount() {
-    GetdepartList().then(response=>{
-      console.log(response.data.data,'1');
-      const data=response.data.data;
-      if(data){
-        var departlist=[];
-        for(var i=0,len=data.length;i<len;i++){
-          var departdata=data[i];
-          departlist.push(departdata.depart)
-        }
-      }
-      this.setState({
-        departlist:departlist
-      })
-      console.log('11111',this.state.departlist);
-    }).catch(error=>{
-      console.log(error);
-      }) 
+    this.createWebSocketTask();
+    // GetdepartList().then(response=>{
+    //   console.log(response.data.data,'1');
+    //   const data=response.data.data;
+    //   if(data){
+    //     var departlist=[];
+    //     for(var i=0,len=data.length;i<len;i++){
+    //       var departdata=data[i];
+    //       departlist.push(departdata.depart)
+    //     }
+    //   }
+    //   this.setState({
+    //     departlist:departlist
+    //   })
+    //   console.log('11111',this.state.departlist);
+    // }).catch(error=>{
+    //   console.log(error);
+    //   }) 
 
-    GetprojectList().then(response=>{
+    // GetprojectList().then(response=>{
+    //   const data=response.data.data;
+    //   if(data){
+    //     var projectlist=[];
+    //     for(var i=0,len=data.length;i<len;i++){
+    //       var projectdata=data[i];
+    //       projectlist.push(projectdata.projectname)
+    //     }
+    //   }
+    //   this.setState({
+    //     projectlist:projectlist
+    //   })
+    //   console.log('projectlist',this.state.projectlist);
+    //   console.log(response.data.data,'1');
+    //   // this.setState({
+    //   //   doctorproject:response.data.data
+    //   // })
+    // }).catch(error=>{
+    //   console.log(error);
+    // })  
+    Getchatrecord().then(response=>{
       const data=response.data.data;
-      if(data){
-        var projectlist=[];
-        for(var i=0,len=data.length;i<len;i++){
-          var projectdata=data[i];
-          projectlist.push(projectdata.projectname)
-        }
-      }
       this.setState({
-        projectlist:projectlist
+        list:data
       })
-      console.log('projectlist',this.state.projectlist);
-      console.log(response.data.data,'1');
-      // this.setState({
-      //   doctorproject:response.data.data
-      // })
     }).catch(error=>{
       console.log(error);
-      })  
+    }) 
 
   }
+  createWebSocketTask = () => {
+    console.log('createWebSocketTask');
+  }
+  renderMessage = (item) => {
+    const isDoctor = item.sendUserType === 2;//表示发送方是医生
+    return isDoctor ? (
+      <div id={item.id} key={item.id} className="doctors">
+        {this.renderMessageContent(item)}
+        <img className={styles.avatar} src='https://ae01.alicdn.com/kf/U72877ec302e740359cbb76f4c8d3fbd6q.jpg'  alt="头像" />
+      </div>
+    ) : (
+      // <div id={item.id} key={item.id} className={classnames(styles.item, styles.other)}>
+      <div id={item.id} key={item.id} className="users">
+        <img className={styles.avatar} src='https://ae01.alicdn.com/kf/U572870ed31ef4b67b0998f75f9c1f38c5.jpg' alt="头像" />
+        {this.renderMessageContent(item)}
+      </div>
+    );
+  }
+  renderMessageContent = (item) => {
+    return (
+      // <div className={classnames(styles.msg, styles.text)}>
+      <div className="msg">
+        {item.content.split('\n').map((text, index) => {
+          return (
+            <div key={index} className="content">
+              {text}
+            </div>
+          );
+        })}
+        <div className={"arrow"} />
+      </div>
+    );
+  }
+  handleChange = (e) =>{
+    this.setState({
+      text:e.target.value
+    })
+  }
+  // handleClick = () =>{
+  //   console.log('111');
+  // }
 inputChange = (prop,e)=>{
     if(prop === 'patientname'){
         this.setState({
@@ -110,6 +168,74 @@ inputChange = (prop,e)=>{
       })
     }   
 }
+showError = (t, c) => {
+  Modal.error({
+    zIndex: '99999',
+    title: t,
+    content: c,
+    okText: '确定'
+  });
+};
+  handleClick = () =>{
+    const param = {msg:this.state.text, type: 'text'}
+    //将对话信息进行发送
+    //if(this.send(param)){//将数据发送到后端
+      this.addNewMsg(param);
+    //} 
+    this.setState({
+      text:''
+    })
+    console.log('11132');
+  }
+  send = ({ msg, type })=> {
+    if (this.socket.isConnected()) {
+      this.socket.send(this.createMsgObj({ msg, type }));
+      return true;
+    } else {
+      this.showError('对话连接已断开，请关闭对话框重试');
+      return false;
+    }
+  }
+  addNewMsg({ msgObj, msg, type, fromServer }) {
+   // const isBottom = this.listContent.clientHeight - this.list.scrollTop - this.listContainerHeight < 20;
+    const newMsgObj = msgObj || this.createMsgObj({ msg, type, complete: true });
+    // 可能存在 addNewMsg 被短时间内多次调用的情况（比如同时上传多个文件时）
+    // 为避免 this.state.list 最新值无法获取，采用以下方式更新数据
+    this.state.list.push(newMsgObj);
+    // this.state.list = insertTimeTagToList(this.state.list);
+    // this.setState({}, () => {
+    //   if (fromServer) {
+    //     if (isBottom) {
+    //       this.list.scrollTop = this.listContent.clientHeight;
+    //     }
+    //   } else {
+    //     this.list.scrollTop = this.listContent.clientHeight;
+    //   }
+    //   this.lastListContentHeight = this.listContent.clientHeight;
+    //   this.lastScrollTop = this.list.scrollTop;
+    // });
+  }
+  createMsgObj({ msg, type, complete = false } = {}){
+    // const { msgCenterState } = this.props;
+    // const caseInfo = msgCenterState.caseInfo;
+    // const msgType = MsgFormat.contentType[type] || MsgFormat.contentType.text;
+    let msgObj = {
+      // msgId: createId(), // 信息 Id，后端生成，前端不用传
+      relationId: "51087806809767936", // 小程序用户消息和业务系统消息关联id，例：诊疗系统的病例id
+      sysType: 2, // 对接业务系统: 1-诊疗咨询（treat）
+      sendUserId: "61280", // 发送人 id
+      sendUserType: 2, // 发送人类型: 1-小程序用户；2-业务系统用户(诊疗端医生)
+      contentType: 1, // 消息内容类型: 1-文本；2-图片
+      content: msg // 消息内容
+      // createDate: dayjs().format('YYYY年MM月DD日 HH:mm'), // 生成时间，后端生成，前端不用传
+    };
+    // 返回完整数据，用于前端展示
+    if (complete) {
+      msgObj.msgId = "51087806809767936";
+      msgObj.createDate = "2021-02-10";
+    }
+    return msgObj;
+  }
   selectChange= (prop, e) =>{
     if(prop === 'patientsex'){
         this.setState({
@@ -310,15 +436,29 @@ inputChange = (prop,e)=>{
                 </div>
                 <div className="chat_right"
                 >
-                  <div className="chat_right_chat"></div>
-                  <div className="chat_right_send">
-                  
-                    <div className="send_information">
-                      <div style={{marginLeft:"5px"}}><PictureTwoTone /></div>
-                      <div style={{marginLeft:"5px"}}>请输入消息</div>
-                    </div>
+                  <div className="chat_right_chat">
+                  {this.state.list.map(item => {
+                    if (item.contentType === 'time') {
+                      return (
+                        <div id={item.id} key={item.id} className={styles.dateLabel}>
+                          {item.createDate}
+                          {/* {dayjs(item.createDate).format('YYYY年MM月DD日 HH:mm')} */}
+                        </div>
+                      );
+                    }
+                    return this.renderMessage(item);
+                  })}
+                  </div>
+                  <div className="chat_right_send">                 
+                    <textarea
+                      placeholder='请输入消息'
+                      value={this.state.text}
+                      onChange={(e)=>this.handleChange(e)}
+                    ></textarea>
+                      {/* <div style={{marginLeft:"5px"}}><PictureTwoTone /></div> */}
+                      {/* <div style={{marginLeft:"5px"}}>请输入消息</div> */}
                     <div className="send_button">
-                      <button>
+                      <button onClick={this.handleClick}>
                         发送
                       </button>
                     </div>

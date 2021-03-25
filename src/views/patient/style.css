@@ -3,20 +3,128 @@
     width: 450px;
 }
 .chat_right{
+    width: 450px;
     display: inline-block;
+    background-color: #eef1f4;
     border: 1px solid brown;
 }
 .chat_right_chat{
-    width: 450px;
+    overflow: auto;
+    /* width: 450px; */
     height: 300px;
 }
 .chat_right_send{
+    border-top: 1px solid brown;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    width: 100%;
+    background: rgba(238, 241, 244, 0.65);
     height: 200px;
 }
 .send_information{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     border-top: 1px solid brown;
     color: gray;
 }
 .send_button{
-    margin-left: 400px;
+    margin-left: 365px;
+    margin-bottom: 20px;
 }
+.send_button button{
+    width: 70px;
+}
+.item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 25px;
+}
+.avatar {
+    margin-left: 0;
+    margin-right: 10px;
+  }
+  .msg {
+    margin-right: 10px;
+    background-color: #fff;
+    position: relative;
+    max-width: 60%;
+    padding: 7px 12px;
+    border-radius: 4px;
+    background-color: #cae6fc;
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #000000;
+    line-height: 20px;
+  }
+  .content {
+    width: 100%;
+    word-break: break-word;
+  }
+  .arrow {
+    position: absolute;
+    top: 15px;
+    right: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    background-color: #cae6fc;
+    transform: rotate(45deg);
+  }
+  .dateLabel {
+    width: 100%;
+    padding: 16px 0 40px 0;
+    font-size: 12px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.35);
+    line-height: 17px;
+    text-align: center;
+  }
+  .doctors{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    padding-right: 10px;
+    margin-bottom: 25px;
+  }
+  .users{
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 25px;
+    padding-left: 10px;
+  }
+  img{
+      width: 34px;
+      height: 34px;
+  }
+  .users .msg{
+    margin-left: 10px;
+    background-color: #fff;
+  }
+  .users .msg .arrow{
+    left: -3px;
+    background-color: #fff;
+  }
+  textarea{
+    flex: 1;
+    width: 100%;
+    padding: 0 10px 8px 10px;
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    /* font-size: 14px; */
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #000000;
+    line-height: 20px;
+    resize: none;
+    outline: none;
+  }

@@ -212,3 +212,11 @@ export function Updatepatientlist(data){
         params:data
     }) 
 }
+//获取用户和医生的聊天记录
+export function Getchatrecord(data){
+    return service.request({
+        url:"/getchatrecord/",
+        method:"get",
+        params:data
+    }) 
+}
