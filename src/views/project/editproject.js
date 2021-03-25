@@ -1,6 +1,6 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
-import {Saveprojectlist,GetdepartList} from '../../service/account'//导入接口
+import {Updateprojectlist,GetdepartList} from '../../service/account'//导入接口
 class ProjectEdit extends React.Component{
   constructor(props){
     super(props);    
@@ -9,6 +9,7 @@ class ProjectEdit extends React.Component{
         projectid:this.props.projectid,
         projectname:this.props.projectname,
         projectdep:this.props.projectdep,
+        projectsqlid:this.props.projectsqlid,
         departlist:[]
     }
   }
@@ -37,10 +38,26 @@ class ProjectEdit extends React.Component{
     })
   };
   formSubmitEvent = () =>{
+    if(!this.state.projectid){
+      return message.warning("请输入项目编号！！")
+    }
+    if(!/^\d{9}$/g.test(this.state.projectid)){
+      return message.warning("请输入9位数字的项目编号！！")
+    }
+    if(!this.state.projectname){
+      return message.warning("请输入项目名称！！")
+    }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.projectname)){
+      return message.warning("请输入正确的项目名称！！")
+    }
+    if(!this.state.projectdep){
+      return message.warning("请选择项目所属科室！！")
+    }
     const payload={
       projectid:this.state.projectid,
       projectname:this.state.projectname,
-      projectdep:this.state.projectdep
+      projectdep:this.state.projectdep,
+      projectsqlid:this.state.projectsqlid
     }
     this.setState({
       editvisible:!this.state.editvisible
@@ -48,9 +65,12 @@ class ProjectEdit extends React.Component{
     //添加科室后，调用后端接口，把数据传给后端
     const requestData=payload;
     console.log('Saveprojectlist',requestData);
-    Saveprojectlist(requestData).then(response=>{
-      message.success(response.data.message)
-      console.log(response.data.data);
+    Updateprojectlist(requestData).then(response=>{
+      if(response.data.rescode == 1){
+        message.success(response.data.message)
+      }else{
+        message.warning(response.data.message)
+      }
     //   this.setState({
     //     list:response.data.data
     //   })

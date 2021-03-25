@@ -17,6 +17,7 @@ class DoctorListTable extends React.Component{
       doctorposition:'',
       doctordepart:'',
       doctorproject:'',
+      doctorsqlid:"",
       editvisible:false,
       deletevisible:false,
       list:[]
@@ -45,6 +46,7 @@ class DoctorListTable extends React.Component{
     })
   }
   editFunc = (record) => {
+    const doctorsqlid=record._id;
     const {
     doctorid,
     doctorname,
@@ -55,6 +57,7 @@ class DoctorListTable extends React.Component{
     doctordepart,
     doctorproject}=record;
     this.setState({
+    doctorsqlid,
     doctorid,
     doctorname,
     doctorsex,
@@ -95,21 +98,23 @@ class DoctorListTable extends React.Component{
  
   render(){ 
     const columns = [
-        {
-          title: '序列',
-          width: 60,
-          dataIndex: 'index',
-          key: 'index',
-        },
+        // {
+        //   title: '序列',
+        //   width: 60,
+        //   dataIndex: 'index',
+        //   key: 'index',
+        // },
         {
           title: '医生编号 ',
           width: 120,
+          fixed:'left',
           dataIndex: 'doctorid',
           key: 'doctorid',
         },
         {
           title: '姓名',
           width: 120,
+          fixed:'left',
           dataIndex: 'doctorname',
           key: 'doctorname',
           render: text => <a>{text}</a>,
@@ -146,7 +151,7 @@ class DoctorListTable extends React.Component{
         },
         {
           title: '所在项目',
-          width: 80,
+          width: 120,
           dataIndex: 'doctorproject',
           key: 'doctorproject',
         },
@@ -214,7 +219,8 @@ class DoctorListTable extends React.Component{
           doctorposition={this.state.doctorposition}
           doctordepart={this.state.doctordepart}
           doctorproject={this.state.doctorproject} 
-          editvisible={this.state.editvisible}/>}          
+          editvisible={this.state.editvisible}
+          doctorsqlid={this.state.doctorsqlid}/>}          
         </Fragment> 
 )
   }

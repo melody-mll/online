@@ -93,9 +93,9 @@ class PatientList extends React.Component{
     })
   }
   patientlistSearch=()=>{
-    // if(!this.state.patientname){
-    //   return message.warning("患者姓名不可为空");
-    // }
+    if(!this.state.patientname){
+      return message.warning("患者姓名不可为空");
+    }
     if(!this.state.patientid){
       return message.warning("患者证件号不可为空");
     }
@@ -223,7 +223,8 @@ class PatientList extends React.Component{
         <Button style={{ display: 'block',marginBottom:'10px'}} 
             type='primary' onClick={() => this.addFunc()}><span
               style={{ letterSpacing: '2px' }}><PlusOutlined />添加</span>
-        </Button>        
+        </Button>  
+        <div>    
         <Table
           columns={columns}
           dataSource={this.state.list}
@@ -233,7 +234,7 @@ class PatientList extends React.Component{
               y:'max-content'
             }
           }
-          />
+          /></div>  
           {this.state.editvisible && <PatientEdit 
           patientsqlid={this.state.patientsqlid}
           patientname={this.state.patientname}

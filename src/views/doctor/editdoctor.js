@@ -1,6 +1,6 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
-import {Savedoctorlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
+import {Updatedoctorlist,GetdepartList,GetprojectList} from '../../service/account'//导入接口
 class DoctorEdit extends React.Component{
   constructor(props){
     super(props);
@@ -16,6 +16,7 @@ class DoctorEdit extends React.Component{
         doctorproject:this.props.doctorproject,
         editvisible:this.props.editvisible,
         edittype:this.props.edittype,
+        doctorsqlid:this.props.doctorsqlid,
         departlist:[],
         projectlist:[]
     }
@@ -43,26 +44,27 @@ class DoctorEdit extends React.Component{
       console.log(error);
       }) 
 
-    GetprojectList().then(response=>{
-      const data=response.data.data;
-      if(data){
-        var projectlist=[];
-        for(var i=0,len=data.length;i<len;i++){
-          var projectdata=data[i];
-          projectlist.push(projectdata.projectname)
+      const requestData={projectdep:this.state.doctordepart}
+      GetprojectList(requestData).then(response=>{
+        const data=response.data.data;
+        if(data){
+          var projectlist=[];
+          for(var i=0,len=data.length;i<len;i++){
+            var projectdata=data[i];
+            projectlist.push(projectdata.projectname)
+          }
         }
-      }
-      this.setState({
-        projectlist:projectlist
-      })
-      console.log('projectlist',this.state.projectlist);
-      console.log(response.data.data,'1');
-      // this.setState({
-      //   doctorproject:response.data.data
-      // })
-    }).catch(error=>{
-      console.log(error);
-      })  
+        this.setState({
+          projectlist:projectlist
+        })
+        console.log('projectlist',this.state.projectlist);
+        console.log(response.data.data,'1');
+        // this.setState({
+        //   doctorproject:response.data.data
+        // })
+      }).catch(error=>{
+        console.log(error);
+        }) 
 
   }
 inputChange = (prop,e)=>{
@@ -99,6 +101,30 @@ inputChange = (prop,e)=>{
         })
     }
     if(prop === 'doctordepart'){
+      this.setState({
+        doctorproject:""
+      })
+      const requestData={projectdep:e}
+      GetprojectList(requestData).then(response=>{
+        const data=response.data.data;
+        if(data){
+          var projectlist=[];
+          for(var i=0,len=data.length;i<len;i++){
+            var projectdata=data[i];
+            projectlist.push(projectdata.projectname)
+          }
+        }
+        this.setState({
+          projectlist:projectlist
+        })
+        console.log('projectlist',this.state.projectlist);
+        console.log(response.data.data,'1');
+        // this.setState({
+        //   doctorproject:response.data.data
+        // })
+      }).catch(error=>{
+        console.log(error);
+        }) 
         this.setState({
             doctordepart:e
         })
@@ -120,6 +146,9 @@ inputChange = (prop,e)=>{
     }
     if(!this.state.doctorname){
       return message.warning("医生姓名不可为空！！！");
+    }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.doctorname)){
+      return message.warning("请输入正确的医生姓名！！")
     }
     if(!this.state.doctorsex){
       return message.warning("医生性别不可为空！！！");
@@ -153,14 +182,16 @@ inputChange = (prop,e)=>{
       doctorphone:this.state.doctorphone,
       doctorposition:this.state.doctorposition,
       doctordepart:this.state.doctordepart,
-      doctorproject:this.state.doctorproject
+      doctorproject:this.state.doctorproject,
+      doctorsqlid:this.state.doctorsqlid
     }
+    console.log('payload1',payload);
     this.setState({
       editvisible:!this.state.editvisible
     })
     //编辑医生保存后，调用后端接口，把数据传给后端
     const requestData=payload;
-    Savedoctorlist(requestData).then(response=>{
+    Updatedoctorlist(requestData).then(response=>{
       message.success(response.data.message)
       console.log(response.data.data);
     }).catch(error=>{
@@ -186,7 +217,7 @@ inputChange = (prop,e)=>{
                         </span>
                     </Col>
                     <Col span={18}>
-                       <Input 
+                       <Input disabled={true}
                        onChange={(e) => this.inputChange('doctorid',e)} value={this.state.doctorid}
                        placeholder="请输入医生编号"
                        /> 

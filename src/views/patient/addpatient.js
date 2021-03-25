@@ -135,6 +135,9 @@ inputChange = (prop,e)=>{
     if(!this.state.patientname){
       return message.warning("患者姓名不可为空！！！");
     }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.patientname)){
+      return message.warning("请输入正确的患者名称！！")
+    }
     // if((this.state.patientname).match(/^[u4e00-u9fa5]{0,}$/g)){
     //   return message.warning("请输入正确的患者姓名！！！");
     // }
@@ -231,8 +234,8 @@ inputChange = (prop,e)=>{
                       
                        />  */}
                        <Select style={{ width: 355 }} onChange={(e) => this.selectChange('patientsex',e)}  value={this.state.patientsex}>
-                        <Option value="man">男</Option>
-                        <Option value="woman">女</Option>
+                        <Option value="男">男</Option>
+                        <Option value="女">女</Option>
                       </Select>
                     </Col>
                 </Row>

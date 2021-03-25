@@ -1,5 +1,5 @@
 import React,{Fragment}  from 'react';
-import { Modal,Input,Row,Col,Select } from 'antd';
+import { Modal,Input,Row,Col,Select, message } from 'antd';
 import {GetdocScheduleList,SaveEditSchedule} from '../../service/account'//导入接口
 class EditSchedule extends React.Component{
   constructor(props){
@@ -21,8 +21,9 @@ class EditSchedule extends React.Component{
       registrationFee:this.state.registrationFee,
       registrationNum:this.state.registrationNum
     }
+    console.log('rere',requestData);
     SaveEditSchedule(requestData).then(response=>{   
-      console.log(response.data.data);
+      message.success(response.data.message);
     }).catch(error=>{
         console.log(error)
     })
@@ -60,7 +61,7 @@ class EditSchedule extends React.Component{
 
 
   render(){
-    console.log(this.props.details[0].registrationNum,'000');
+    // console.log(this.props.details[0].registrationNum,'000');
     return (
         <Fragment>
               <Modal title="排班管理"

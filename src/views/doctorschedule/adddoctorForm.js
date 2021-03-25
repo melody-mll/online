@@ -1,13 +1,19 @@
 import React,{Fragment}  from 'react';
-import { Modal,Input,Row,Col,Select } from 'antd';
-import {GetScheduleDoctor} from '../../service/account'//导入接口
+import { Modal,Input,Row,Col,Select,message } from 'antd';
+import {GetScheduleDoctor,SaveScheduleDoctor} from '../../service/account'//导入接口
 class AdddoctorForm extends React.Component{
   constructor(props){
     super(props);
     this.state={
         adddocvisible:this.props.adddocvisible,
         doctorname:"",
-        doctorschedulelist:[]
+        docid:"",
+        date:"",
+        week:"",
+        registrationFee:0,
+        registrationNum:0,
+        doctorschedulelist:[],
+        doctoridschedulelist:[]
     }
   }
   componentWillMount() {   
@@ -19,13 +25,17 @@ class AdddoctorForm extends React.Component{
         const data=response.data.data;
         if(data){
           var doctorschedulelist=[];
+          var doctoridschedulelist=[];
           for(var i=0,len=data.length;i<len;i++){
             var doctorscheduledata=data[i];
-            doctorschedulelist.push(doctorscheduledata.name)
+            doctorschedulelist.push(doctorscheduledata.doctorname);
+            doctoridschedulelist.push(doctorscheduledata.doctorid);
+
           }
         }
         this.setState({
-            doctorschedulelist:doctorschedulelist
+            doctorschedulelist:doctorschedulelist,
+            doctoridschedulelist:doctoridschedulelist
           })
           console.log(this.state.doctorschedulelist,'dada')
       }).catch(error=>{
@@ -34,9 +44,30 @@ class AdddoctorForm extends React.Component{
   }
 
   handleOk=()=>{
+    const payload={
+      doctordepart:this.props.doctordepart,
+      doctorproject:this.props.doctorproject,
+      name:this.state.doctorname,
+      docid:this.state.docid
+    }
+    console.log('mll',payload);
+    const requestData=payload;
+    SaveScheduleDoctor(requestData).then(response=>{
+      if(response.data.rescode == 1){
+        message.success(response.data.message)
+      }else{
+        message.warning(response.data.message)
+      }
+      
+      console.log(response.data.data);
+
+    }).catch(error=>{
+        console.log(error)
+    })
       this.setState({
         adddocvisible:!this.state.adddocvisible
       })
+   
   }
   handleCancel=()=>{
     this.setState({
@@ -45,13 +76,18 @@ class AdddoctorForm extends React.Component{
   }
   selectChange=(e)=>{
       this.setState({
-          doctorname:e
+          doctorname:e,      
+      })
+      this.state.doctorschedulelist.map((item,index)=>{
+        if(item==e){
+          this.setState({
+            docid:this.state.doctoridschedulelist[index]
+          })
+        }
       })
   }
 
   render(){
-      console.log('fda',this.state);
-      console.log('fdaa',this.props.adddocvisible);
       const { Option } = Select;
     return (
         <Fragment>
@@ -91,6 +127,7 @@ class AdddoctorForm extends React.Component{
                         //  options={this.state.departlist.toString()}
                         value={this.state.doctorname}>
                             {this.state.doctorschedulelist.map((value,  label) => (
+                              
                             <Option key={value} value={value}>
                             {value}
                             </Option>

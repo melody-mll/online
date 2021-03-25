@@ -73,7 +73,9 @@ class ScheduleTableComponent extends React.Component{
   render(){
     const row=this.props.doctorScheduleList.map((item, index) => {
       console.log('item',item);
-      const {docid,infos,name}=item;
+      const {docid,infos,name,registrationFeeone,registrationNumone,
+        registrationFeetwo,registrationNumtwo
+      }=item;
       
       return (
         <div className="scheduleRow">
@@ -93,6 +95,16 @@ class ScheduleTableComponent extends React.Component{
             </span>
           </div>
           {this.getScheduleCells(docid,infos)}
+          {/* <div>
+            <div className="feeandnum_form">
+            （{registrationFeeone}）
+            ¥{registrationNumone}
+            </div>
+            <div className="feeandnum_form">
+            （{registrationFeetwo}）
+            ¥{registrationNumtwo}
+            </div>
+          </div> */}
         </div>
       );
     });

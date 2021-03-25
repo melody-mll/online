@@ -1,5 +1,6 @@
 .detail_left{
     display: inline-block;
+    width: 450px;
 }
 .chat_right{
     display: inline-block;

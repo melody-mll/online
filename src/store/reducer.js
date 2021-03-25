@@ -7,9 +7,9 @@ const defaultStatus={
         doctordepart:''
     },
     doctorlist:{
-        doctorid:'',
+        doctorid:'1',
         doctorname:'',
-        doctorsex:'man',
+        doctorsex:'男',
         doctorage:'',
         doctorphone:'',
         doctorposition:'',

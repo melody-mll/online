@@ -19,7 +19,8 @@ class ProjectList extends React.Component{
       deletevisible:false,
       projectid:"",
       projectname:"",
-      projectdep:""
+      projectdep:"",
+      projectsqlid:""
     };
   }
   //生命周期的使用
@@ -51,11 +52,13 @@ class ProjectList extends React.Component{
       }) 
   }
   editFunc=(record)=>{
+    const projectsqlid = record._id;
     const {projectid,projectname,projectdep}=record;
     this.setState({
       projectid,
       projectname,
       projectdep,
+      projectsqlid,
       editvisible:!this.state.editvisible
     })
   }
@@ -199,7 +202,8 @@ class ProjectList extends React.Component{
           editvisible={this.state.editvisible}
           projectid={this.state.projectid}
           projectname={this.state.projectname}
-          projectdep={this.state.projectdep}/>}  
+          projectdep={this.state.projectdep}
+          projectsqlid={this.state.projectsqlid}/>}  
           {this.state.deletevisible && <ProjectDelete
           deletevisible={this.state.deletevisible}
           projectid={this.state.projectid}

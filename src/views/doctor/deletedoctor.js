@@ -1,5 +1,5 @@
 import React,{Fragment}  from 'react';
-import { Button,Modal,Row,Col, Input,Select,} from 'antd';
+import { Button,Modal,Row,Col, Input,Select,Popconfirm,message} from 'antd';
 import {Deletedoctorlist} from '../../service/account'//导入接口
 import store from "../../store";
 class DoctorDelete extends React.Component{
@@ -23,7 +23,7 @@ class DoctorDelete extends React.Component{
         deletevisible:!this.state.deletevisible
     })
   };
-  formDeleteEvent = () =>{
+  confirm=()=>{
     const payload={
       doctorid:this.state.doctorid,
       doctorname:this.state.doctorname,
@@ -39,12 +39,41 @@ class DoctorDelete extends React.Component{
       deletevisible:!this.state.deletevisible
     })
     Deletedoctorlist(requestData).then(response=>{
-      console.log(response.data.data);
+      if(response.data.rescode==1){
+        message.success(response.data.message);
+      }else{
+        message.error(response.data.message)
+      }
     }).catch(error=>{
         console.log(error)
     })
     console.log(payload);
   }
+  cancel=()=>{
+    console.log('cancel');
+  }
+  // formDeleteEvent = () =>{
+  //   const payload={
+  //     doctorid:this.state.doctorid,
+  //     doctorname:this.state.doctorname,
+  //     doctorsex:this.state.doctorsex,
+  //     doctorage:this.state.doctorage,
+  //     doctorphone:this.state.doctorphone,
+  //     doctorposition:this.state.doctorposition,
+  //     doctordepart:this.state.doctordepart,
+  //     doctorproject:this.state.doctorproject
+  //   }
+  //   const requestData = payload;
+  //   this.setState({
+  //     deletevisible:!this.state.deletevisible
+  //   })
+  //   Deletedoctorlist(requestData).then(response=>{
+  //     console.log(response.data.data);
+  //   }).catch(error=>{
+  //       console.log(error)
+  //   })
+  //   console.log(payload);
+  // }
   closeModalEvent = () =>{
     this.setState({
       editvisible:false
@@ -160,13 +189,21 @@ class DoctorDelete extends React.Component{
                 </Row>
                 
                 <div className="buttonmain">
+                <Popconfirm
+                  title="是否删除这项数据?"
+                  onConfirm={this.confirm}
+                  onCancel={this.cancel}
+                  okText="是"
+                  cancelText="否"
+                >
                   <Button
                     className="buttonsave_content"
                     type="danger"
-                    onClick={this.formDeleteEvent}
+                    // onClick={this.formDeleteEvent}
                   >
                     <span style={{ letterSpacing: '2px' }}>删除</span>
                   </Button>
+                  </Popconfirm>
                   <Button
                     className="buttoncancel_content"
                     onClick={this.handleCancel}

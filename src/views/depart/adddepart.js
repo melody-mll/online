@@ -16,6 +16,12 @@ class DepartAdd extends React.Component{
     })
   };
   formSubmitEvent = () =>{
+    if(!/^\d{7}$/g.test(this.state.departid)){
+      return message.warning("请输入7位数字的科室编号！！")
+    }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.depart)){
+      return message.warning("请输入正确的科室名称！！")
+    }
     const payload={
         depart:this.state.depart,
         departid:this.state.departid
@@ -26,7 +32,12 @@ class DepartAdd extends React.Component{
     //添加科室后，调用后端接口，把数据传给后端
     const requestData=payload;
     Savedepartlist(requestData).then(response=>{
-      message.success(response.data.message)
+      if(response.data.rescode == 1){
+        message.success(response.data.message)
+      }else{
+        message.warning(response.data.message)
+      }
+      
       console.log(response.data.data);
     //   this.setState({
     //     list:response.data.data

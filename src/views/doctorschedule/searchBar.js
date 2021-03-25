@@ -1,5 +1,5 @@
 import React,{Fragment} from 'react';
-import { Button,Modal,Row,Col, Input,Select} from 'antd';
+import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
 import "./style.css";
 import AdddoctorForm from "./adddoctorForm";
 import ScheduleTableComponent from './ScheduleTableComponent';
@@ -39,7 +39,31 @@ class SearchBar extends React.Component{
       console.log(error);
       }) 
 
-    GetprojectList().then(response=>{
+    // GetprojectList().then(response=>{
+    //   const data=response.data.data;
+    //   if(data){
+    //     var projectlist=[];
+    //     for(var i=0,len=data.length;i<len;i++){
+    //       var projectdata=data[i];
+    //       projectlist.push(projectdata.projectname)
+    //     }
+    //   }
+    //   this.setState({
+    //     projectlist:projectlist
+    //   })
+    //   console.log('projectlist',this.state.projectlist);
+    //   console.log(response.data.data,'1');
+    //   // this.setState({
+    //   //   doctorproject:response.data.data
+    //   // })
+    // }).catch(error=>{
+    //   console.log(error);
+    //   })  
+
+  }
+  selectChangedep=(e)=>{
+    const requestData={projectdep:e}
+    GetprojectList(requestData).then(response=>{
       const data=response.data.data;
       if(data){
         var projectlist=[];
@@ -58,10 +82,7 @@ class SearchBar extends React.Component{
       // })
     }).catch(error=>{
       console.log(error);
-      })  
-
-  }
-  selectChangedep=(e)=>{
+      })
     this.setState({
       doctordepart:e
     })
@@ -72,7 +93,12 @@ class SearchBar extends React.Component{
     })
   }
   doctorlistSearch=()=>{
-    console.log('koskdosk');
+    if(!this.state.doctordepart){
+      message.warning("请选择科室进行查询！！")
+    }
+    if(!this.state.doctorproject){
+      message.warning("请选择项目进行查询！！")
+    }
     GetscheduleDateHeader().then(response=>{
       console.log(response.data.data,'1');
       this.setState({
@@ -113,6 +139,7 @@ class SearchBar extends React.Component{
                 <Col span={14} className='info_input'>
                 <Select defaultValue="" style={{ width: 355 }} 
                  onChange={(e) => this.selectChangedep(e)} 
+                 allowClear={true}
                  value={this.state.doctordepart}>
                    {this.state.departlist.map((value,  label) => (
                     <Option key={value} value={value}>
@@ -127,6 +154,7 @@ class SearchBar extends React.Component{
               <Col span={14} className='info_input'>
               <Select defaultValue="" style={{ width: 355 }} 
               onChange={(e) => this.selectChangepro(e)} 
+              allowClear={true}
               value={this.state.doctorproject}>
                 {this.state.projectlist.map((value,  label) => (
                     <Option key={value} value={value}>

@@ -16,7 +16,8 @@ class DepartList extends React.Component{
       editvisible:false,
       deletevisible:false,
       depart:"",
-      departid:""
+      departid:"",
+      departsqlid:""
     };
   }
   //生命周期的使用
@@ -30,10 +31,12 @@ class DepartList extends React.Component{
     })
   }
   editFunc=(record)=>{
+    const departsqlid = record._id;
     const {depart,departid}=record;
     this.setState({
       depart,
       departid,
+      departsqlid,
       editvisible:!this.state.editvisible
     })
   }
@@ -107,6 +110,7 @@ class DepartList extends React.Component{
           />}
           {this.state.editvisible && <DepartEdit 
           editvisible={this.state.editvisible}
+          departsqlid={this.state.departsqlid}
           depart={this.state.depart}
           departid={this.state.departid}/>}  
           {this.state.deletevisible && <DepartDelete 

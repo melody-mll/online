@@ -1,6 +1,6 @@
 import React,{Fragment}  from 'react';
-import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
-import {Savedepartlist} from '../../service/account'//导入接口
+import { Button,Modal,Row,Col, Input,Select, message,Popconfirm} from 'antd';
+import {Deleteprojectlist} from '../../service/account'//导入接口
 class ProjectDelete extends React.Component{
   constructor(props){
     super(props);    
@@ -16,19 +16,17 @@ class ProjectDelete extends React.Component{
       deletevisible:!this.state.deletevisible
     })
   };
-  formSubmitEvent = () =>{
+  confirm = () =>{
     const payload={
       projectid:this.props.projectid,
       projectname:this.props.projectname,
       projectdep:this.props.projectdep,
-      flag:"delete"
     }
     this.setState({
       deletevisible:!this.state.deletevisible
     })
-    //添加科室后，调用后端接口，把数据传给后端
     const requestData=payload;
-    Savedepartlist(requestData).then(response=>{
+    Deleteprojectlist(requestData).then(response=>{
       message.success(response.data.message)
       console.log(response.data.data);
     //   this.setState({
@@ -37,8 +35,31 @@ class ProjectDelete extends React.Component{
     }).catch(error=>{
         console.log(error)
     })
-    console.log(payload);
   }
+  cancel = () =>{
+    console.log("cancel");
+  }
+  // formSubmitEvent = () =>{
+  //   const payload={
+  //     projectid:this.props.projectid,
+  //     projectname:this.props.projectname,
+  //     projectdep:this.props.projectdep,
+  //   }
+  //   this.setState({
+  //     deletevisible:!this.state.deletevisible
+  //   })
+  //   const requestData=payload;
+  //   Deleteprojectlist(requestData).then(response=>{
+  //     message.success(response.data.message)
+  //     console.log(response.data.data);
+  //   //   this.setState({
+  //   //     list:response.data.data
+  //   //   })
+  //   }).catch(error=>{
+  //       console.log(error)
+  //   })
+  //   console.log(payload);
+  // }
 
   closeModalEvent = () =>{
     this.setState({
@@ -99,13 +120,28 @@ class ProjectDelete extends React.Component{
                 </Row>
 
                 <div className="buttonmain">
-                  <Button
+                  {/* <Button
                     className="buttonsave_content"
                     type="danger"
                     onClick={this.formSubmitEvent}
                   >
                     <span style={{ letterSpacing: '2px' }}>删除</span>
+                  </Button> */}
+                  <Popconfirm
+                  title="是否删除这项数据?"
+                  onConfirm={this.confirm}
+                  onCancel={this.cancel}
+                  okText="是"
+                  cancelText="否"
+                >
+                  <Button
+                    className="buttonsave_content"
+                    type="danger"
+                    // onClick={this.formDeleteEvent}
+                  >
+                    <span style={{ letterSpacing: '2px' }}>删除</span>
                   </Button>
+                  </Popconfirm>
                   <Button
                     className="buttoncancel_content"
                     onClick={this.closeModalEvent}

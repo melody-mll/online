@@ -1,13 +1,14 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
-import {Savedepartlist} from '../../service/account'//导入接口
+import {Updatedepartlist} from '../../service/account'//导入接口
 class DepartEdit extends React.Component{
   constructor(props){
     super(props);    
     this.state={
         editvisible:this.props.editvisible,
         depart:this.props.depart,
-        departid:this.props.departid
+        departid:this.props.departid,
+        departsqlid:this.props.departsqlid
     }
   }
   handleCancel = () => {
@@ -18,16 +19,20 @@ class DepartEdit extends React.Component{
   formSubmitEvent = () =>{
     const payload={
         depart:this.state.depart,
-        departid:this.state.departid
+        departid:this.state.departid,
+        departsqlid:this.state.departsqlid
     }
     this.setState({
       editvisible:!this.state.editvisible
     })
     //添加科室后，调用后端接口，把数据传给后端
     const requestData=payload;
-    Savedepartlist(requestData).then(response=>{
-      message.success(response.data.message)
-      console.log(response.data.data);
+    Updatedepartlist(requestData).then(response=>{
+      if(response.data.rescode == 1){
+        message.success(response.data.message)
+      }else{
+        message.warning(response.data.message)
+      }
     //   this.setState({
     //     list:response.data.data
     //   })

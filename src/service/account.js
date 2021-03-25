@@ -43,6 +43,14 @@ export function Savedoctorlist(data){
         data:data
     })
 }
+//编辑医生信息的接口
+export function Updatedoctorlist(data){
+    return service.request({
+        url:"/updatedoctorlist/",
+        method:"get",
+        params:data
+    })
+}
 //删除医生后调用接口，把所删除的数据传给后端
 export function Deletedoctorlist(data){
     return service.request({
@@ -64,7 +72,7 @@ export function GetdocScheduleList(data){
     return service.request({
         url:"/getdocschedulelist/",
         method:"get",
-        data:data
+        params:data
     }) 
 }
 //得到所有的科室信息
@@ -80,7 +88,7 @@ export function GetprojectList(data){
     return service.request({
         url:"/getprojectlist/",
         method:"get",
-        data:data
+        params:data
     }) 
 }
 //得到所有的项目信息
@@ -88,7 +96,23 @@ export function GetAllprojectList(data){
     return service.request({
         url:"/getallprojectlist/",
         method:"get",
-        data:data
+        params:data
+    }) 
+}
+//项目信息编辑后进行更新
+export function Updateprojectlist(data){
+    return service.request({
+        url:"/updateprojectlist/",
+        method:"get",
+        params:data
+    }) 
+}
+//删除项目信息
+export function Deleteprojectlist(data){
+    return service.request({
+        url:"/deleteprojectlist/",
+        method:"get",
+        params:data
     }) 
 }
 //在排班时，添加医生，（所选科室，项目，已经确定）
@@ -96,7 +120,15 @@ export function GetScheduleDoctor(data){
     return service.request({
         url:"/getscheduledoctor/",
         method:"get",
-        data:data
+        params:data
+    }) 
+}
+//排班设置时，对于医生信息进行保存
+export function SaveScheduleDoctor(data){
+    return service.request({
+        url:"/savescheduledoctor/",
+        method:"get",
+        params:data
     }) 
 }
 //排班时，编辑挂号信息保存时，调用接口
@@ -104,15 +136,32 @@ export function SaveEditSchedule(data){
     return service.request({
         url:"/saveeditschedule/",
         method:"get",
-        data:data
+        params:data
     }) 
 }
-//编辑保存科室时，更新数据
+//新增科室时，更新数据
 export function Savedepartlist(data){
     return service.request({
         url:"/savedepartlist/",
         method:"get",
-        data:data
+        params:data
+    }) 
+}
+//科室信息编辑后进行更新
+export function Updatedepartlist(data){
+    return service.request({
+        url:"/updatedepartlist/",
+        method:"get",
+        params:data
+    }) 
+}
+
+//删除科室信息
+export function Deletedepartlist(data){
+    return service.request({
+        url:"/deletedepartlist/",
+        method:"get",
+        params:data
     }) 
 }
 //编辑保存项目时，更新数据
@@ -120,7 +169,7 @@ export function Saveprojectlist(data){
     return service.request({
         url:"/saveprojectlist/",
         method:"get",
-        data:data
+        params:data
     }) 
 }
 //从接口获取预约信息中的所有的患者信息
@@ -128,15 +177,15 @@ export function Getregisterinformationlist(data){
     return service.request({
         url:"/getregisterinformationlist/",
         method:"get",
-        data:data
+        params:data
     }) 
 }
 //预约信息更改后进行保存
-export function Saveregisterinformation(data){
+export function Updateregisterinformation(data){
     return service.request({
-        url:"/saveregisterinformation/",
+        url:"/updateregisterinformation/",
         method:"get",
-        data:data
+        params:data
     }) 
 }
 //从接口获取所有的患者信息

@@ -66,6 +66,29 @@ class DoctorAdd extends React.Component{
     store.dispatch(action);
 }
   selectChange= (prop, e) =>{
+    if(prop=='doctordepart'){
+      const requestData={projectdep:e}
+      GetprojectList(requestData).then(response=>{
+        const data=response.data.data;
+        if(data){
+          var projectlist=[];
+          for(var i=0,len=data.length;i<len;i++){
+            var projectdata=data[i];
+            projectlist.push(projectdata.projectname)
+          }
+        }
+        this.setState({
+          projectlist:projectlist
+        })
+        console.log('projectlist',this.state.projectlist);
+        console.log(response.data.data,'1');
+        // this.setState({
+        //   doctorproject:response.data.data
+        // })
+      }).catch(error=>{
+        console.log(error);
+        })  
+    }
     const action={
       type:"update-doctorlist",
       payload: {
@@ -83,8 +106,14 @@ class DoctorAdd extends React.Component{
     if(!this.state.doctorlist.doctorid){
       return message.warning("医生编号不可为空！！！");
     }
+    if(!/^\d{7}$/g.test(this.state.doctorlist.doctorid)){
+      return message.warning("请输入7位数字的医生编号！！")
+    }
     if(!this.state.doctorlist.doctorname){
       return message.warning("医生姓名不可为空！！！");
+    }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.doctorlist.doctorname)){
+      return message.warning("请输入正确的医生姓名！！")
     }
     if(!this.state.doctorlist.doctorsex){
       return message.warning("医生性别不可为空！！！");
@@ -99,7 +128,7 @@ class DoctorAdd extends React.Component{
       return message.warning("医生电话不可为空！！！");
     }
     if(!/^[1][3,4,5,7,8][0-9]{9}$/g.test(this.state.doctorlist.doctorphone)){
-      return message.warning("请输入正确的手机号")
+      return message.warning("请输入正确的手机号！！！")
     }
     if(!this.state.doctorlist.doctorposition){
       return message.warning("医生职位不可为空！！！");
@@ -125,9 +154,13 @@ class DoctorAdd extends React.Component{
     })
     //添加医生后，调用后端接口，把数据传给后端
     const requestData=payload;
+    console.log(requestData,'requestData');
     Savedoctorlist(requestData).then(response=>{
-      message.success(response.data.message)
-      console.log(response.data.data);
+      if(response.data.rescode == 1){
+        message.success(response.data.message);
+      }else{
+        message.warning(response.data.message);
+      }
       this.setState({
         list:response.data.data
       })
@@ -143,7 +176,7 @@ class DoctorAdd extends React.Component{
   // }).catch(error=>{
   // })
 
-    console.log(payload);
+    console.log(payload,'payload');
   }
   closeModalEvent = () =>{
     this.setState({
@@ -189,9 +222,9 @@ class DoctorAdd extends React.Component{
                         </span>
                     </Col>
                     <Col span={18}>
-                    <Select defaultValue="man" style={{ width: 355 }} onChange={(e) => this.selectChange('doctorsex',e)}  value={this.state.doctorsex}>
-                    <Option value="man">男</Option>
-                    <Option value="woman">女</Option>
+                    <Select defaultValue="男" style={{ width: 355 }} onChange={(e) => this.selectChange('doctorsex',e)}  value={this.state.doctorsex}>
+                    <Option value="男">男</Option>
+                    <Option value="女">女</Option>
                     </Select>
                     </Col>
                 </Row>

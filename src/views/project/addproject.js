@@ -38,6 +38,21 @@ class ProjectAdd extends React.Component{
     })
   };
   formSubmitEvent = () =>{
+    if(!this.state.projectid){
+      return message.warning("请输入项目编号！！")
+    }
+    if(!/^\d{9}$/g.test(this.state.projectid)){
+      return message.warning("请输入9位数字的项目编号！！")
+    }
+    if(!this.state.projectname){
+      return message.warning("请输入项目名称！！")
+    }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.projectname)){
+      return message.warning("请输入正确的项目名称！！")
+    }
+    if(!this.state.projectdep){
+      return message.warning("请选择项目所属科室！！")
+    }
     const payload={
       projectid:this.state.projectid,
       projectname:this.state.projectname,
@@ -50,8 +65,13 @@ class ProjectAdd extends React.Component{
     const requestData=payload;
     console.log('Saveprojectlist',requestData);
     Saveprojectlist(requestData).then(response=>{
-      message.success(response.data.message)
-      console.log(response.data.data);
+      if(response.data.rescode == 1){
+        message.success(response.data.message)
+      }else{
+        message.warning(response.data.message)
+      }
+      
+     
     //   this.setState({
     //     list:response.data.data
     //   })

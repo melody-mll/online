@@ -1,7 +1,7 @@
 import React,{Fragment}  from 'react';
 import { Button,Modal,Row,Col, Input,Select, message} from 'antd';
 import moment from 'moment';
-import {Saveregisterinformation} from '../../service/account'//导入接口
+import {Updateregisterinformation} from '../../service/account'//导入接口
 class RegisterInformationEdit extends React.Component{
   constructor(props){
     super(props);  
@@ -17,7 +17,8 @@ class RegisterInformationEdit extends React.Component{
         projectname:this.props.projectname,
         doctorname:this.props.doctorname,
         registerdate:registerdates,
-        registerstatus:this.props.registerstatus
+        registerstatus:this.props.registerstatus,
+        registersqlid:this.props.registersqlid
     }
   }
 
@@ -38,7 +39,7 @@ class RegisterInformationEdit extends React.Component{
     //进行编辑保存后，将信息进行保存更改
     const requestData=payload;
     console.log('Saveprojectlist',requestData);
-    Saveregisterinformation(requestData).then(response=>{
+    Updateregisterinformation(requestData).then(response=>{
       message.success(response.data.message)
       console.log(response.data.data);
     //   this.setState({
@@ -137,9 +138,9 @@ class RegisterInformationEdit extends React.Component{
                     // placeholder="请输入项目名称"
                     
                     >
-                    <Option value="registeredsuccess">预约成功</Option>
-                    <Option value="already">已就诊</Option>
-                    <Option value="timeout">已失效</Option>
+                    <Option value="预约成功">预约成功</Option>
+                    <Option value="已就诊">已就诊</Option>
+                    <Option value="已失效">已失效</Option>
                     </Select>
                 </Col>
             </Row>

@@ -89,36 +89,39 @@ inputChange = (prop,e)=>{
     })
   };
   formSubmitEvent = () =>{
-    // if(!this.state.doctorid){
-    //   return message.warning("医生编号不可为空！！！");
-    // }
-    // if(!this.state.doctorname){
-    //   return message.warning("医生姓名不可为空！！！");
-    // }
-    // if(!this.state.doctorsex){
-    //   return message.warning("医生性别不可为空！！！");
-    // }
-    // if(!this.state.doctorage){
-    //   return message.warning("医生年龄不可为空！！！");
-    // }
-    // if(this.state.doctorage>100||this.state.doctorage<18){
-    //   return message.warning("请输入正确的医生年龄！！！");
-    // }
-    // if(!this.state.doctorphone){
-    //   return message.warning("医生电话不可为空！！！");
-    // }
-    // if(!/^[1][3,4,5,7,8][0-9]{9}$/g.test(this.state.doctorphone)){
-    //   return message.warning("请输入正确的手机号")
-    // }
-    // if(!this.state.doctorposition){
-    //   return message.warning("医生职位不可为空！！！");
-    // }
-    // if(!this.state.doctordepart){
-    //   return message.warning("医生科室不可为空！！！");
-    // }
-    // if(!this.state.doctorproject){
-    //   return message.warning("医生所属项目不可为空！！！");
-    // }
+    if(!this.state.patientname){
+      return message.warning("患者姓名不可为空！！！");
+    }
+    if(!/^[\u4e00-\u9fa5]{0,}$/g.test(this.state.patientname)){
+      return message.warning("请输入正确的患者名称！！")
+    }
+    if(!this.state.patientsex){
+      return message.warning("患者性别不可为空！！！");
+    }
+    if(!this.state.patientid){
+      return message.warning("患者证件号不可为空！！！");
+    }
+    if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/g.test(this.state.patientid)){
+      return message.warning("请输入正确的证件号")
+    }
+    if(!this.state.patientage){
+      return message.warning("患者年龄不可为空！！！");
+    }
+    if(!this.state.patientphone){
+      return message.warning("患者电话不可为空！！！");
+    }
+    if(!/^[1][3,4,5,7,8][0-9]{9}$/g.test(this.state.patientphone)){
+      return message.warning("请输入正确的手机号")
+    }
+    if(!this.state.diseasename){
+      return message.warning("疾病名称不可为空！！！");
+    }
+    if(!this.state.diseasedetail){
+      return message.warning("疾病详情不可为空！！！");
+    }
+    if(!this.state.clinicdate){
+      return message.warning("就诊日期不可为空！！！");
+    }
     const payload={
       patientsqlid:this.state.patientsqlid,
       patientname:this.state.patientname,

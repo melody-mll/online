@@ -1,7 +1,7 @@
 import React,{Fragment} from 'react';
 import moment from 'moment';
 import RegisterInformationEdit from "./editregisterinformation";
-import { Table,Button,Row,Col,Input, Select,DatePicker } from 'antd';
+import { Table,Button,Row,Col,Input, Select,DatePicker, message } from 'antd';
 import {Getregisterinformationlist} from '../../service/account'//导入接口
 import {Switch,Route, HashRouter} from 'react-router-dom';
 class RegisterList extends React.Component{
@@ -17,6 +17,7 @@ class RegisterList extends React.Component{
       doctorname:"",
       registerdate:"",
       registerstatus:"",
+      registersqlid:"",
       editvisible:false
     };
   }
@@ -58,6 +59,7 @@ class RegisterList extends React.Component{
   }
   editFunc=(record)=>{
     console.log(record);
+    const registersqlid = record._id;
     //日期对象不能直接显示，需要转换为Moment对象
     const registerdate=moment(record.registerdate);
     const {patientname,patientphone,patientid,depname,projectname,doctorname,registerstatus}=record;
@@ -70,13 +72,24 @@ class RegisterList extends React.Component{
       doctorname,
       registerdate,
       registerstatus,
+      registersqlid,
       editvisible:!this.state.editvisible
     })
   }
   registerlistSearch=()=>{
     const dateFormat = 'YYYY-MM-DD';
     const datefor=this.state.registerdate;
+    if(!this.state.patientname){
+      return message.warning("请输入患者姓名！！")
+    }
+    if(!this.state.patientid){
+      return message.warning("请输入患者身份证号！！")
+    }
+    if(!this.state.registerdate){
+      return message.warning("请选择预约日期！！")
+    }
     const requestData = {
+      action:"query",
       patientname:this.state.patientname,
       patientid:this.state.patientid,
       registerdate:moment(datefor).format(dateFormat)
@@ -96,6 +109,7 @@ class RegisterList extends React.Component{
       {
         title: '患者姓名 ',
         width: 120,
+        fixed:'left',
         dataIndex: 'patientname',
         key: 'patientname',
       },
@@ -205,7 +219,8 @@ class RegisterList extends React.Component{
           projectname={this.state.projectname}
           doctorname={this.state.doctorname}
           registerdate={this.state.registerdate}
-          registerstatus={this.state.registerstatus}/>}  
+          registerstatus={this.state.registerstatus}
+          registersqlid={this.state.registersqlid}/>}  
       </Fragment>
     );
   }
