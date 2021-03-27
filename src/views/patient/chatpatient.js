@@ -2,7 +2,8 @@ import React,{Fragment}  from 'react';
 import moment from 'moment';
 import styles from "./style.css";
 import Chat from './chat';
-import WebsocketHeartbeat from 'websocket-heartbeat-miniprogram';
+import Socket from './utils';
+//import WebsocketHeartbeat from 'websocket-heartbeat-miniprogram';
 import {PictureTwoTone} from "@ant-design/icons";
 import { Button,Modal,Row,Col, Input,Select, message,DatePicker} from 'antd';
 import {Savepatientlist,GetdepartList,GetprojectList,Getchatrecord} from '../../service/account'//导入接口
@@ -35,8 +36,37 @@ class PatientChat extends React.Component{
 //       this.setState(store.getState())
 //   })
   }
-  componentWillMount() {
-    this.createWebSocketTask();
+  //componentWillMount() {
+    componentDidMount() {
+    this.socket = new Socket({
+      socketUrl: 'ws://localhost:3003/websocketcollection',
+      timeout: 5000,
+      socketMessage: (receive) => {
+          console.log(receive);  //后端返回的数据，渲染页面
+      },
+      socketClose: (msg) => {
+          console.log(msg);
+      },
+      socketError: () => {
+          console.log(this.state.taskStage + '连接建立失败');
+      },
+      socketOpen: () => {
+          console.log('连接建立成功');
+          this.socket.isConnected = true;
+          // 心跳机制 定时向后端发数据
+          this.taskRemindInterval = setInterval(() => {
+              this.socket.sendMessage({ "msgType": 0 })
+          }, 30000)
+      }
+      });
+    　//重试创建socket连接
+      try {
+          this.socket.connection();
+      } catch (e) {
+          // 捕获异常，防止js error
+          // donothing
+      }
+    //this.createWebSocketTask();
     // GetdepartList().then(response=>{
     //   console.log(response.data.data,'1');
     //   const data=response.data.data;
@@ -87,6 +117,18 @@ class PatientChat extends React.Component{
   }
   createWebSocketTask = () => {
     console.log('createWebSocketTask');
+    this.socket = new Socket({
+      //caseInfo,
+      onMessage: msg => {
+        this.handleMessage(msg);
+      },
+      onConnect: () => {
+        this.setState({ connectState: 'connected' });
+      },
+      onConnecting: () => {
+        this.setState({ connectState: 'connecting' });
+      }
+    });
   }
   renderMessage = (item) => {
     const isDoctor = item.sendUserType === 2;//表示发送方是医生
@@ -179,16 +221,16 @@ showError = (t, c) => {
   handleClick = () =>{
     const param = {msg:this.state.text, type: 'text'}
     //将对话信息进行发送
-    //if(this.send(param)){//将数据发送到后端
+    if(this.send(param)){//将数据发送到后端
       this.addNewMsg(param);
-    //} 
+    } 
     this.setState({
       text:''
     })
     console.log('11132');
   }
   send = ({ msg, type })=> {
-    if (this.socket.isConnected()) {
+    if (this.socket.isConnected) {
       this.socket.send(this.createMsgObj({ msg, type }));
       return true;
     } else {
